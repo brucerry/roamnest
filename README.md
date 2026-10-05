@@ -66,8 +66,8 @@ checks public files, build output and reachable Git history for private artifact
 
 ## Deployment
 
-The Pages workflow validates pushes and pull requests. After release approval, choose GitHub Actions
-as the Pages source and run the workflow on `main` with **deploy** enabled.
+Every push to `main` automatically deploys to GitHub Pages after all validation checks pass.
+Pull requests run validation only. To publish manually, run the workflow on `main` with **deploy** enabled.
 
 ---
 
