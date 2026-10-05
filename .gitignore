@@ -1,0 +1,22 @@
+# Dependencies and generated builds
+/node_modules/
+/dist/
+
+# Development caches and test outputs
+/.cache/
+/.tmp/
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+*.tsbuildinfo
+*.log
+*.pid
+
+# Private runtime configuration and personal backups
+.env
+.env.*
+*.local.json
+private-*.json
+*enriched*.json
+roamnest-20*.json

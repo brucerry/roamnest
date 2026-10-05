@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Preserve bundled asset bytes and their recorded source hashes.
+/public/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

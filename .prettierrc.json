@@ -1,0 +1,9 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 100,
+    "singleQuote": true,
+    "proseWrap": "always",
+    "endOfLine": "lf",
+    "embeddedLanguageFormatting": "off"
+}

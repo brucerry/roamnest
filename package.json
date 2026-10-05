@@ -1,0 +1,33 @@
+{
+    "name": "roamnest",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "description": "A private globe itinerary and places planner with portable backups",
+    "scripts": {
+        "build": "node scripts/build.mjs",
+        "typecheck": "tsc --noEmit",
+        "test": "npm run build && node --test tests/unit/*.test.mjs",
+        "start": "node scripts/serve.mjs",
+        "dev": "npm run build && npm start",
+        "build:static": "node scripts/build.mjs --static",
+        "audit:release": "node scripts/audit-release.mjs",
+        "test:browser": "node tests/browser/pages-browser.mjs",
+        "test:views": "node tests/browser/views-browser.mjs",
+        "test:globe-effects": "node tests/browser/globe-effects-browser.mjs",
+        "format": "prettier --write \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/{unit,browser}/**/*.mjs\" index.html package.json tsconfig.json .prettierrc.json README.md THIRD_PARTY.md \".github/workflows/*.yml\"",
+        "format:check": "prettier --check \"src/**/*.{ts,css}\" \"scripts/**/*.mjs\" \"tests/{unit,browser}/**/*.mjs\" index.html package.json tsconfig.json .prettierrc.json README.md THIRD_PARTY.md \".github/workflows/*.yml\""
+    },
+    "devDependencies": {
+        "playwright-core": "1.63.0",
+        "prettier": "3.9.9",
+        "typescript": "7.0.2"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "dependencies": {
+        "d3-array": "3.2.4",
+        "d3-geo": "3.1.1"
+    }
+}

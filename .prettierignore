@@ -1,0 +1,8 @@
+node_modules/
+dist/
+public/
+evidence/
+tests/local/
+package-lock.json
+# README layout is maintained manually.
+README.md
