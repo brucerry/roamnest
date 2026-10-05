@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-10-04T07:22:46.464391+00:00",
+  "note": "Hashes record local bundled assets. Airport acquisition timestamp is embedded in its dataset. Exact acquisition timestamp for retained Natural Earth geometry was not recorded; no timestamp has been invented.",
+  "assets": [
+    {
+      "file": "airports.json",
+      "source": "OurAirports",
+      "sourceUrl": "https://ourairports.com/data/",
+      "retrievedAt": "2026-10-03T19:33:12.4771889Z",
+      "license": "Public domain",
+      "count": 4133,
+      "sha256": "5000c43e28d05c69327d4e6c24feedcae85473b135e6ba005e6bb34bd95c6649"
+    },
+    {
+      "file": "land.geojson",
+      "source": "Natural Earth 110m land geometry",
+      "sourceUrl": "https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson",
+      "retrievedAt": null,
+      "license": "Public domain",
+      "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9"
+    },
+    {
+      "file": "country-boundaries.geojson",
+      "source": "Natural Earth 110m Admin 0 land boundary lines",
+      "sourceUrl": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_boundary_lines_land.geojson",
+      "retrievedAt": "2026-10-04T14:16:57.785621+00:00",
+      "license": "Public domain",
+      "featureCount": 331,
+      "sha256": "19caa78534fee6b8e97f80f28598c8150213e5058f813a081438c1ca18f9c0fc",
+      "note": "Generalized de facto country boundaries, not municipal borders or legal delineation."
+    }
+  ]
+}

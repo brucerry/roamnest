@@ -1,0 +1,30 @@
+{
+  "retrievedAt": "2026-10-05",
+  "vegetation": {
+    "source": "RESOLVE Ecoregions 2017",
+    "authors": "Dinerstein et al. (2017), RESOLVE",
+    "sourceURL": "https://ecoregions.appspot.com/",
+    "downloadURL": "https://storage.googleapis.com/teow2016/Ecoregions2017.zip",
+    "documentationURL": "https://developers.google.com/earth-engine/datasets/catalog/RESOLVE_ECOREGIONS_2017",
+    "license": "CC-BY-4.0",
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "sourceSha256": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
+    "derivation": "Selected forest biome classes 1–6, Mediterranean woodlands 12, mangroves 14. Source rings simplified at 0.3 degrees, rounded to 0.001 degrees; tiny rings under 0.04 square degrees omitted; spherical winding normalized; retained holes.",
+    "meaning": "Generalized ecological biome regions, not current forest canopy, tree locations, deforestation, or a complete vegetation inventory.",
+    "features": 996,
+    "sourceRings": 25558,
+    "sourceVertices": 5182222
+  },
+  "rivers": {
+    "source": "Natural Earth 1:110m rivers and lake centerlines",
+    "version": "5.0.0",
+    "sourceURL": "https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-rivers-lake-centerlines/",
+    "downloadURL": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_rivers_lake_centerlines.geojson",
+    "license": "Public domain",
+    "licenseURL": "https://www.naturalearthdata.com/about/terms-of-use/",
+    "sourceSha256": "55aa4497405afc07cdc931b7fbe062c4d6693ba2a550c0d24899953f5d507c8d",
+    "derivation": "Original source coordinates retained; unused metadata stripped.",
+    "meaning": "Generalized major river and lake centerlines; not exhaustive waterways or navigation data.",
+    "features": 13
+  }
+}

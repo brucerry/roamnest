@@ -1,0 +1,1002 @@
+{
+  "schemaVersion": 2,
+  "catalogId": "curated-nonstop-routes-2026-10-05",
+  "checkedDate": "2026-10-05",
+  "scope": "18 enabled directional nonstop passenger airport pairs supported by opened official source content. Eight indexed candidates are separate and disabled. Bounded coverage, not exhaustive or date-specific availability.",
+  "routeCount": 18,
+  "verifiedEnabledCount": 18,
+  "candidateCount": 8,
+  "candidateFile": "route-candidates-disabled-2026-10-05.json",
+  "simulation": {
+    "requiredLabel": {
+      "en": "SIMULATED",
+      "zhHant": "模擬"
+    },
+    "description": {
+      "en": "Real researched route pairs; aircraft positions, headings, progress and animation timing are simulated.",
+      "zhHant": "航線端點依公開資料查核；飛機位置、方向、進度及動畫時間均為模擬。"
+    },
+    "liveFlightTracking": false,
+    "realDepartureOrArrivalClaims": false,
+    "realFlightNumbersForAnimatedObjects": false,
+    "runtimeFlightAPIRequired": false
+  },
+  "implementationNotes": [
+    "Directional whitelist: never generate arbitrary pairs or reverse directions.",
+    "Reference flight numbers are audit evidence only; animated objects use demo IDs.",
+    "Join exact IATA to OurAirports; never guess omitted coordinates.",
+    "Country filters use endpoint countryCode. HKG–Canada sample is YVR only; YYZ remains disabled.",
+    "English and Traditional Chinese city/country labels use airport codes as identity.",
+    "Explicit SIMULATED / 模擬 label; limited coverage, not date-specific availability.",
+    "Schedules can change; service beyond a source validity window is not asserted.",
+    "Load only enabled routes; never merge disabled candidates without fully opening primary sources."
+  ],
+  "uiDisclosure": {
+    "en": "18 researched routes • checked 5 Oct 2026 • simulated traffic • limited route coverage",
+    "zhHant": "已查核 18 條航線 · 查核日期 2026/10/05 · 模擬動態 · 航線收錄範圍有限"
+  },
+  "evidencePolicy": {
+    "accepted": "Directly opened official airport nonstop lists, operating statements, or individual airline sectors. Indexed content alone is insufficient.",
+    "marketingOnlyRejected": true,
+    "unverifiedThirdPartyMirrorsUsedAsPrimary": false,
+    "sourceValidityNotLiveStatus": true,
+    "indexedOnlyEntriesEnabled": false,
+    "fullSourceOpeningRequired": true
+  },
+  "exclusions": [
+    {
+      "id": "AKL-ORD",
+      "reason": "Air New Zealand current official network marks service paused",
+      "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+      "checkedDate": "2026-10-05"
+    },
+    {
+      "id": "HKG-DXB-via-BKK",
+      "reason": "Emirates EK384/385 through Bangkok are not nonstop HKG–DXB sectors",
+      "sourceURL": "https://www.emirates.com/hk/english/destinations/hkg/dxb/flights-from-hong-kong-to-dubai/",
+      "checkedDate": "2026-10-05"
+    },
+    {
+      "id": "YVR-BKK-on-Cathay",
+      "reason": "Cathay page indicates connection via Hong Kong",
+      "sourceURL": "https://flights.cathaypacific.com/destinations/en_CA/flights-from-vancouver-to-bangkok",
+      "checkedDate": "2026-10-05"
+    }
+  ],
+  "routes": [
+    {
+      "id": "HKG-YVR",
+      "origin": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "destination": {
+        "iata": "YVR",
+        "city": {
+          "en": "Vancouver",
+          "zhHant": "溫哥華"
+        },
+        "countryCode": "CA",
+        "country": {
+          "en": "Canada",
+          "zhHant": "加拿大"
+        }
+      },
+      "carrier": {
+        "iata": "CX",
+        "name": {
+          "en": "Cathay Pacific",
+          "zhHant": "國泰航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://news.yvr.ca/yvr-hosts-cathay-pacifics-gallery-in-the-skies-in-airlines-80th-anniversary-celebration/",
+        "sourceType": "official_airport_operating_route_statement",
+        "sourceTitle": "YVR: Cathay Pacific 80th anniversary",
+        "summary": "Airport confirms present-day Cathay nonstop service between Vancouver and Hong Kong",
+        "sourcePublishedDate": "2026-03-17",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": [
+          "https://flights.cathaypacific.com/destinations/en_HK/flights-from-hong-kong-to-vancouver"
+        ]
+      },
+      "seasonality": "Frequency varies at peak season; no fixed daily schedule or year-round guarantee encoded"
+    },
+    {
+      "id": "YVR-HKG",
+      "origin": {
+        "iata": "YVR",
+        "city": {
+          "en": "Vancouver",
+          "zhHant": "溫哥華"
+        },
+        "countryCode": "CA",
+        "country": {
+          "en": "Canada",
+          "zhHant": "加拿大"
+        }
+      },
+      "destination": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "carrier": {
+        "iata": "CX",
+        "name": {
+          "en": "Cathay Pacific",
+          "zhHant": "國泰航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://news.yvr.ca/yvr-hosts-cathay-pacifics-gallery-in-the-skies-in-airlines-80th-anniversary-celebration/",
+        "sourceType": "official_airport_operating_route_statement",
+        "sourceTitle": "YVR: Cathay Pacific 80th anniversary",
+        "summary": "Airport confirms present-day Cathay nonstop service between Vancouver and Hong Kong",
+        "sourcePublishedDate": "2026-03-17",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Frequency varies at peak season; no fixed daily schedule or year-round guarantee encoded"
+    },
+    {
+      "id": "HKG-SEA",
+      "origin": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "destination": {
+        "iata": "SEA",
+        "city": {
+          "en": "Seattle",
+          "zhHant": "西雅圖"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "CX",
+        "name": {
+          "en": "Cathay Pacific",
+          "zhHant": "國泰航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://news.cathaypacific.com/cathay-pacific-connects-hong-kong-and-seattle-with-a-five-times-weekly-direct-service-ov2kmi",
+        "sourceType": "official_airline_dated_schedule",
+        "sourceTitle": "Cathay: Hong Kong–Seattle service launched",
+        "summary": "Airline confirms launched nonstop service and gives both directional flight rows",
+        "sourcePublishedDate": "2026-03-30",
+        "validFrom": "2026-09-16",
+        "validThrough": "2026-10-24",
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "CX852"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Evidence timetable covers 16 September–24 October 2026; service beyond that period is not asserted"
+    },
+    {
+      "id": "SEA-HKG",
+      "origin": {
+        "iata": "SEA",
+        "city": {
+          "en": "Seattle",
+          "zhHant": "西雅圖"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "carrier": {
+        "iata": "CX",
+        "name": {
+          "en": "Cathay Pacific",
+          "zhHant": "國泰航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://news.cathaypacific.com/cathay-pacific-connects-hong-kong-and-seattle-with-a-five-times-weekly-direct-service-ov2kmi",
+        "sourceType": "official_airline_dated_schedule",
+        "sourceTitle": "Cathay: Hong Kong–Seattle service launched",
+        "summary": "Airline confirms launched nonstop service and gives both directional flight rows",
+        "sourcePublishedDate": "2026-03-30",
+        "validFrom": "2026-09-16",
+        "validThrough": "2026-10-24",
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "CX853"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Evidence timetable covers 16 September–24 October 2026; service beyond that period is not asserted"
+    },
+    {
+      "id": "HKG-BKK",
+      "origin": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "destination": {
+        "iata": "BKK",
+        "city": {
+          "en": "Bangkok",
+          "zhHant": "曼谷"
+        },
+        "countryCode": "TH",
+        "country": {
+          "en": "Thailand",
+          "zhHant": "泰國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/hk/english/destinations/hkg/bkk/flights-from-hong-kong-to-bangkok/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Hong Kong–Bangkok flight schedules",
+        "summary": "Current schedule displays the HKG–BKK segment and its reverse as individual Emirates flight legs",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK385"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated current route schedule; flight times, frequency, and date-specific availability are not encoded"
+    },
+    {
+      "id": "BKK-HKG",
+      "origin": {
+        "iata": "BKK",
+        "city": {
+          "en": "Bangkok",
+          "zhHant": "曼谷"
+        },
+        "countryCode": "TH",
+        "country": {
+          "en": "Thailand",
+          "zhHant": "泰國"
+        }
+      },
+      "destination": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/hk/english/destinations/hkg/bkk/flights-from-hong-kong-to-bangkok/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Hong Kong–Bangkok flight schedules",
+        "summary": "Current schedule displays the HKG–BKK segment and its reverse as individual Emirates flight legs",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK384"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated current route schedule; flight times, frequency, and date-specific availability are not encoded"
+    },
+    {
+      "id": "HKG-DXB",
+      "origin": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "destination": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/hk/english/destinations/hkg/dxb/flights-from-hong-kong-to-dubai/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Hong Kong–Dubai flight schedules",
+        "summary": "Current schedule distinguishes the short single-sector services from longer through services",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK381",
+          "EK383"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Use only EK380/381/382/383 as route evidence; EK384/385 through Bangkok are not evidence of nonstop HKG–DXB"
+    },
+    {
+      "id": "DXB-HKG",
+      "origin": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "destination": {
+        "iata": "HKG",
+        "city": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        },
+        "countryCode": "HK",
+        "country": {
+          "en": "Hong Kong",
+          "zhHant": "香港"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/hk/english/destinations/hkg/dxb/flights-from-hong-kong-to-dubai/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Hong Kong–Dubai flight schedules",
+        "summary": "Current schedule distinguishes the short single-sector services from longer through services",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK380",
+          "EK382"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Use only EK380/381/382/383 as route evidence; EK384/385 through Bangkok are not evidence of nonstop HKG–DXB"
+    },
+    {
+      "id": "ORD-LHR",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "LHR",
+        "city": {
+          "en": "London",
+          "zhHant": "倫敦"
+        },
+        "countryCode": "GB",
+        "country": {
+          "en": "United Kingdom",
+          "zhHant": "英國"
+        }
+      },
+      "carrier": {
+        "iata": "BA",
+        "name": {
+          "en": "British Airways",
+          "zhHant": "英國航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-FRA",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "FRA",
+        "city": {
+          "en": "Frankfurt",
+          "zhHant": "法蘭克福"
+        },
+        "countryCode": "DE",
+        "country": {
+          "en": "Germany",
+          "zhHant": "德國"
+        }
+      },
+      "carrier": {
+        "iata": "LH",
+        "name": {
+          "en": "Lufthansa",
+          "zhHant": "漢莎航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-AMS",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "AMS",
+        "city": {
+          "en": "Amsterdam",
+          "zhHant": "阿姆斯特丹"
+        },
+        "countryCode": "NL",
+        "country": {
+          "en": "Netherlands",
+          "zhHant": "荷蘭"
+        }
+      },
+      "carrier": {
+        "iata": "KL",
+        "name": {
+          "en": "KLM",
+          "zhHant": "荷蘭皇家航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-BOG",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "BOG",
+        "city": {
+          "en": "Bogotá",
+          "zhHant": "波哥大"
+        },
+        "countryCode": "CO",
+        "country": {
+          "en": "Colombia",
+          "zhHant": "哥倫比亞"
+        }
+      },
+      "carrier": {
+        "iata": "AV",
+        "name": {
+          "en": "Avianca",
+          "zhHant": "哥倫比亞航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-GRU",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "GRU",
+        "city": {
+          "en": "São Paulo",
+          "zhHant": "聖保羅"
+        },
+        "countryCode": "BR",
+        "country": {
+          "en": "Brazil",
+          "zhHant": "巴西"
+        }
+      },
+      "carrier": {
+        "iata": "UA",
+        "name": {
+          "en": "United Airlines",
+          "zhHant": "聯合航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-MEX",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "MEX",
+        "city": {
+          "en": "Mexico City",
+          "zhHant": "墨西哥城"
+        },
+        "countryCode": "MX",
+        "country": {
+          "en": "Mexico",
+          "zhHant": "墨西哥"
+        }
+      },
+      "carrier": {
+        "iata": "AM",
+        "name": {
+          "en": "Aeroméxico",
+          "zhHant": "墨西哥航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "ORD-CAI",
+      "origin": {
+        "iata": "ORD",
+        "city": {
+          "en": "Chicago",
+          "zhHant": "芝加哥"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "destination": {
+        "iata": "CAI",
+        "city": {
+          "en": "Cairo",
+          "zhHant": "開羅"
+        },
+        "countryCode": "EG",
+        "country": {
+          "en": "Egypt",
+          "zhHant": "埃及"
+        }
+      },
+      "carrier": {
+        "iata": "MS",
+        "name": {
+          "en": "EgyptAir",
+          "zhHant": "埃及航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.flychicago.com/SiteCollectionDocuments/O'Hare%2F/ArchivedPDFs/MyFlight/INTLnonstops.pdf",
+        "sourceType": "official_airport_nonstop_destination_list",
+        "sourceTitle": "O'Hare International Airport Nonstop International Destinations",
+        "summary": "Destination and carrier appear in the airport's explicitly nonstop international list",
+        "sourcePublishedDate": "2026-09-01",
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_pdf",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred"
+    },
+    {
+      "id": "AKL-SYD",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "SYD",
+        "city": {
+          "en": "Sydney",
+          "zhHant": "雪梨"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Commercial page contains an explicit route statement; fares alone were not used; dates/frequency not guaranteed"
+    },
+    {
+      "id": "AKL-MEL",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "MEL",
+        "city": {
+          "en": "Melbourne",
+          "zhHant": "墨爾本"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Commercial page contains an explicit route statement; fares alone were not used; dates/frequency not guaranteed"
+    },
+    {
+      "id": "AKL-LAX",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "LAX",
+        "city": {
+          "en": "Los Angeles",
+          "zhHant": "洛杉磯"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-05",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Los Angeles is listed in the non-stop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source marks the route year-round; individual departures remain subject to change"
+    }
+  ]
+}

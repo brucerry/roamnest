@@ -1,0 +1,18 @@
+{
+  "retrievedAt": "2026-10-04T07:46:04.486290+00:00",
+  "license": "ISC",
+  "packages": [
+    {
+      "name": "d3-array",
+      "version": "3.2.4",
+      "source": "https://www.npmjs.com/package/d3-array",
+      "sha256": "80aa70d0cd17dabddf6d056494ea17926a45a69da8b7850220aace331bad671d"
+    },
+    {
+      "name": "d3-geo",
+      "version": "3.1.1",
+      "source": "https://www.npmjs.com/package/d3-geo",
+      "sha256": "23e574f1e8d4716d622bce45356a379b66a277162b145f5f147e4c8daefb73d2"
+    }
+  ]
+}

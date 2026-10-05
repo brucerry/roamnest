@@ -1,0 +1,45 @@
+/* Single-open day groups keep notes intact while making city boundaries clear. */
+.daily-stop {
+    margin-top: 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #f8faf4;
+    padding: 0 14px;
+}
+.daily-stop > summary {
+    padding: 14px 0;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+.daily-stop[open] {
+    background: #fffdf8;
+}
+.daily-stop > .day-row {
+    border-top: 1px solid var(--line);
+    padding: 15px 0;
+    margin: 0;
+}
+.day-row > .small-button {
+    margin-top: 10px;
+}
+.day-places {
+    margin-top: 10px;
+    line-height: 1.75;
+    font-size: 13px;
+    color: #526658;
+}
+.final-departure {
+    margin-top: 18px;
+}
+
+/* Status fits its text; the lower-left disclosure expands above its anchored label. */
+.globe-dock > .dock-line-break {
+    flex-basis: 100%;
+    height: 0;
+}
+.globe-dock > .dock-status {
+    flex: 0 1 auto;
+    width: fit-content;
+    max-width: min(calc(100vw - 32px), 22rem);
+    overflow-wrap: anywhere;
+}

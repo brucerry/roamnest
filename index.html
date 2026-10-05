@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="yue-Hant">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+            name="description"
+            content="roamnest — a private globe itinerary and places planner with portable backups."
+        />
+        <title>roamnest — itinerary &amp; places</title>
+        <link rel="icon" type="image/svg+xml" href="./flag.svg?v=flag1" />
+        <link rel="icon" type="image/png" sizes="32x32" href="./flag-32.png?v=flag1" />
+        <link rel="icon" type="image/png" sizes="16x16" href="./flag-16.png?v=flag1" />
+        <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="./src/styles/index.css" />
+        <script src="./vendor/leaflet/leaflet.js" defer></script>
+        <script src="./vendor/d3/d3-array.min.js"></script>
+        <script src="./vendor/d3/d3-geo.min.js"></script>
+        <script type="module" src="./src/main.js"></script>
+    </head>
+    <body class="globe-background">
+        <div id="globe-backdrop" class="globe-backdrop">
+            <div class="starfield" aria-hidden="true"></div>
+            <canvas
+                id="globe"
+                role="img"
+                aria-label="Interactive world globe. Planned geographic connections only; transport service unverified."
+            ></canvas>
+        </div>
+        <a class="skip" href="#planner" data-i18n="Skip to trip planner">Skip to trip planner</a>
+        <header class="masthead wrap">
+            <a class="brand" id="roamnest-home" href="#top" aria-label="roamnest home"
+                ><svg class="brand-flag" aria-hidden="true" viewBox="0 0 40 40">
+                    <rect width="40" height="40" rx="11" fill="#b6dcd4" />
+                    <path
+                        d="M12 10v22"
+                        stroke="#214c41"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    />
+                    <path d="M13 10h17l-4 6 4 6H13Z" fill="#e97865" /></svg
+                ><span>roamnest<span class="brand-dot">.</span></span></a
+            >
+            <nav aria-label="Main">
+                <a href="#planner" data-i18n="Trip settings">Trip settings</a
+                ><a href="#daily" data-i18n="Daily itinerary">Daily itinerary</a
+                ><a href="#city-planner" data-i18n="Attractions">Attractions</a>
+            </nav>
+            <button id="globe-mode" class="mode-toggle" type="button" aria-pressed="false">
+                <span data-i18n="Explore">Explore</span>
+            </button>
+            <div class="language-switch" data-language-switch>
+                <button
+                    id="language-trigger"
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    aria-controls="language-menu"
+                >
+                    <svg class="language-icon" viewBox="0 0 20 20" aria-hidden="true">
+                        <circle cx="10" cy="10" r="8" />
+                        <ellipse cx="10" cy="10" rx="3.5" ry="8" />
+                        <path d="M2 10h16" /></svg
+                    ><span id="language-label">繁體廣東話</span
+                    ><svg class="language-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                        <path d="m2 4 4 4 4-4" />
+                    </svg>
+                </button>
+                <div id="language-menu" role="menu" hidden>
+                    <button
+                        type="button"
+                        role="menuitem"
+                        data-language="yue-Hant"
+                        lang="yue-Hant"
+                        hidden
+                    >
+                        繁體廣東話</button
+                    ><button type="button" role="menuitem" data-language="en" lang="en">
+                        English</button
+                    ><button type="button" role="menuitem" data-language="zh-Hant" lang="zh-Hant">
+                        繁體中文
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div id="globe-dock" class="globe-dock" hidden>
+            <button id="globe-return" class="globe-return" type="button" hidden>Back</button
+            ><button
+                id="globe-mode-motion"
+                class="dock-icon"
+                type="button"
+                aria-label="Pause motion"
+                aria-pressed="false"
+            >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 5v14M16 5v14" />
+                </svg></button
+            ><button
+                id="reset-location"
+                class="dock-icon location-reset"
+                type="button"
+                aria-label="Locate"
+            >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="2" />
+                    <path d="M12 2v3m0 14v3M2 12h3m14 0h3" />
+                </svg></button
+            ><button
+                id="retry-device-location"
+                type="button"
+                hidden
+                data-i18n="Retry device positioning"
+            >
+                Retry device positioning</button
+            ><button
+                id="scene-toggle"
+                class="dock-icon scene-toggle"
+                type="button"
+                aria-label="Use night scene"
+                aria-pressed="false"
+            >
+                <span class="celestial" aria-hidden="true"></span></button
+            ><span class="dock-line-break" aria-hidden="true"></span
+            ><span id="globe-status" class="dock-status" role="status" data-user-content></span>
+        </div>
+
+        <main class="wrap" id="main">
+            <div class="workspace-bar">
+                <div>
+                    <span class="eyebrow" data-i18n="Your trip">Your trip</span>
+                    <h1 id="page-trip-name" data-user-content>Untitled trip</h1>
+                    <p id="trip-duration" class="trip-overview" data-user-content></p>
+                </div>
+                <div class="backup-actions action-dropdown">
+                    <button
+                        id="trip-actions-trigger"
+                        class="trip-actions-trigger"
+                        type="button"
+                        aria-label="Trip actions"
+                        title="Trip actions"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-controls="trip-actions-menu"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path class="menu-line menu-line-top" d="M5 12h14" />
+                            <path class="menu-line menu-line-middle" d="M5 12h14" />
+                            <path class="menu-line menu-line-bottom" d="M5 12h14" />
+                        </svg>
+                    </button>
+                    <div id="trip-actions-menu" role="menu" aria-label="Trip actions" hidden>
+                        <button
+                            class="secondary"
+                            id="new-trip"
+                            type="button"
+                            role="menuitem"
+                            tabindex="-1"
+                        >
+                            <svg class="menu-action-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 5v14M5 12h14" /></svg
+                            ><span data-i18n="New trip">New trip</span></button
+                        ><button
+                            class="secondary"
+                            id="import-backup"
+                            type="button"
+                            role="menuitem"
+                            tabindex="-1"
+                        >
+                            <svg class="menu-action-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M14 3H5v18h14V8l-5-5zM14 3v5h5M2 13h10m-3-3 3 3-3 3"
+                                /></svg
+                            ><span data-i18n="Import backup">Import backup</span></button
+                        ><button
+                            class="secondary"
+                            id="export-backup"
+                            type="button"
+                            role="menuitem"
+                            tabindex="-1"
+                        >
+                            <svg class="menu-action-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M14 3H5v18h14V8l-5-5zM14 3v5h5M12 13h10m-3-3 3 3-3 3"
+                                /></svg
+                            ><span data-i18n="Export backup">Export backup</span>
+                        </button>
+                    </div>
+                    <input type="file" id="import-file" accept=".json,application/json" hidden />
+                </div>
+            </div>
+            <div id="notice" class="notice" role="status" hidden></div>
+            <div
+                id="storage-warning"
+                class="notice warning"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                hidden
+            ></div>
+            <button
+                id="export-original"
+                class="text-button"
+                hidden
+                data-i18n="Download original saved data"
+            >
+                Download original saved data
+            </button>
+            <div class="tool-workspace">
+                <div class="planning-column">
+                    <section class="paper" id="planner" aria-labelledby="planner-title">
+                        <div class="section-heading">
+                            <span class="chapter">01</span>
+                            <h2 id="planner-title" data-i18n="Trip settings">Trip settings</h2>
+                            <span class="small-tag" data-i18n="Manual records">Manual records</span>
+                        </div>
+                        <div class="saved-row">
+                            <div>
+                                <label for="saved-trips" data-i18n="Saved trips">Saved trips</label
+                                ><select id="saved-trips"></select>
+                            </div>
+                            <button
+                                id="delete-trip"
+                                class="icon-button"
+                                type="button"
+                                aria-label="Delete saved trip"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <form id="plan-settings" novalidate>
+                            <label for="trip-name" data-i18n="Trip name">Trip name</label
+                            ><input
+                                id="trip-name"
+                                maxlength="120"
+                                placeholder="e.g. A week across Asia"
+                            /><label for="start-date" data-i18n="Start date">Start date</label
+                            ><input
+                                id="start-date"
+                                type="date"
+                                min="2000-01-01"
+                                max="2099-12-31"
+                                required
+                            />
+                        </form>
+                        <div class="divider"></div>
+                        <h3 class="subheading" data-i18n="Your route">Your route</h3>
+                        <form id="add-stop-form" novalidate>
+                            <div class="stop-add">
+                                <div class="city-lookup">
+                                    <label for="city-search" data-i18n="City or airport code"
+                                        >City or airport code</label
+                                    ><input
+                                        id="city-search"
+                                        maxlength="120"
+                                        placeholder="Search a city or enter your own"
+                                        role="combobox"
+                                        aria-label="City lookup"
+                                        aria-autocomplete="list"
+                                        aria-expanded="false"
+                                        aria-controls="city-options"
+                                        autocomplete="off"
+                                    />
+                                    <ul id="city-options" role="listbox" hidden></ul>
+                                </div>
+                                <div>
+                                    <label for="stop-nights" data-i18n="Nights">Nights</label
+                                    ><input
+                                        id="stop-nights"
+                                        type="number"
+                                        min="1"
+                                        max="90"
+                                        step="1"
+                                        value="1"
+                                    />
+                                </div>
+                            </div>
+                            <button class="primary" type="submit" data-i18n="Add stop">
+                                Add stop
+                            </button>
+                            <p
+                                class="field-note"
+                                data-i18n="Choose a catalog result for representative airport coordinates, or add an unlisted city without a map position."
+                            >
+                                Choose a catalog result for representative airport coordinates, or
+                                add an unlisted city without a map position.
+                            </p>
+                        </form>
+                        <div id="stops-list"></div>
+                        <div class="save-line">
+                            <span id="save-status" role="status" data-user-content
+                                >Not saved yet</span
+                            ><button id="save-now" class="text-button" data-i18n="Save now">
+                                Save now
+                            </button>
+                        </div>
+                        <p
+                            class="field-note"
+                            data-i18n="Saved locally after valid edits. No account or cloud sync."
+                        >
+                            Saved locally after valid edits. No account or cloud sync.
+                        </p>
+                    </section>
+                    <section class="paper" id="daily" aria-labelledby="daily-title">
+                        <div class="section-heading">
+                            <span class="chapter">02</span>
+                            <h2 id="daily-title" data-i18n="Daily itinerary">Daily itinerary</h2>
+                        </div>
+                        <div id="daily-list"></div>
+                    </section>
+                </div>
+                <div class="view-column">
+                    <section id="city-horizon" class="horizon" aria-label="City map">
+                        <div class="globe-panel city-route-panel">
+                            <div class="globe-header">
+                                <span class="live-dot"></span
+                                ><span class="eyebrow" data-i18n="City itinerary map"
+                                    >City itinerary map</span
+                                >
+                            </div>
+                            <div class="two-fields">
+                                <div>
+                                    <label for="city-stop" data-i18n="City stop">City stop</label
+                                    ><select id="city-stop"></select>
+                                </div>
+                                <div>
+                                    <label for="city-day" data-i18n="Trip day">Trip day</label
+                                    ><select id="city-day"></select>
+                                </div>
+                            </div>
+                            <div id="city-map-panel" hidden>
+                                <div class="city-map-column">
+                                    <div class="city-map-actions">
+                                        <button
+                                            id="retry-city-map"
+                                            class="small-button"
+                                            hidden
+                                            data-i18n="Retry street map"
+                                        >
+                                            Retry street map
+                                        </button>
+                                    </div>
+                                    <p
+                                        class="field-note"
+                                        data-i18n="A valid itinerary automatically loads street tiles, sending viewed areas and your IP to OpenStreetMap. No offline tile downloads."
+                                    >
+                                        A valid itinerary automatically loads street tiles, sending
+                                        viewed areas and your IP to OpenStreetMap. No offline tile
+                                        downloads.
+                                    </p>
+                                    <p
+                                        id="map-state"
+                                        class="field-note"
+                                        role="status"
+                                        data-user-content
+                                    ></p>
+                                    <div class="city-map-shell">
+                                        <div
+                                            id="city-map"
+                                            role="region"
+                                            aria-label="City street map"
+                                        ></div>
+                                        <div
+                                            id="city-map-empty"
+                                            class="city-map-empty"
+                                            data-user-content
+                                            hidden
+                                        ></div>
+                                        <div id="city-map-placeholder">
+                                            <p
+                                                data-i18n="Open the street map when you need it. Your places work without it."
+                                            >
+                                                Open the street map when you need it. Your places
+                                                work without it.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="map-attribution">
+                                        ©
+                                        <a
+                                            href="https://www.openstreetmap.org/copyright"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >OpenStreetMap contributors ↗</a
+                                        >
+                                        ·
+                                        <a
+                                            href="https://www.openstreetmap.org/fixthemap"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            data-i18n="Fix the map ↗"
+                                            >Fix the map ↗</a
+                                        >
+                                        · Leaflet
+                                    </div>
+                                    <p
+                                        id="tile-status"
+                                        role="status"
+                                        class="field-note"
+                                        data-user-content
+                                    ></p>
+                                    <div class="road-controls">
+                                        <div>
+                                            <label for="road-mode" data-i18n="Travel mode"
+                                                >Travel mode</label
+                                            ><select id="road-mode">
+                                                <option value="foot">Walking</option>
+                                                <option value="car">Driving</option>
+                                                <option value="bike">Cycling</option>
+                                            </select>
+                                        </div>
+                                        <button
+                                            id="request-road"
+                                            class="primary"
+                                            data-i18n="Calculate road route (online)"
+                                        >
+                                            Calculate road route (online)
+                                        </button>
+                                    </div>
+                                    <p
+                                        id="road-status"
+                                        class="road-status"
+                                        role="status"
+                                        data-user-content
+                                    ></p>
+                                    <p
+                                        class="field-note"
+                                        data-i18n="Optional routing sends coordinates and your IP to FOSSGIS; requests may be logged. Light private prototype use only, up to 10 places per route. No traffic, live arrival guarantee or public transport."
+                                    >
+                                        Optional routing sends coordinates and your IP to FOSSGIS;
+                                        requests may be logged. Light private prototype use only, up
+                                        to 10 places per route. No traffic, live arrival guarantee
+                                        or public transport.
+                                    </p>
+                                    <div
+                                        class="road-legend"
+                                        role="list"
+                                        aria-label="Map line legend"
+                                    >
+                                        <div role="listitem">
+                                            <span class="line-swatch road" aria-hidden="true"></span
+                                            ><span data-i18n="Returned road route"
+                                                >Returned road route</span
+                                            >
+                                        </div>
+                                        <div role="listitem">
+                                            <span
+                                                class="line-swatch planned"
+                                                aria-hidden="true"
+                                            ></span
+                                            ><span data-i18n="Planned visit order"
+                                                >Planned visit order</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="globe-fallback" class="globe-fallback" hidden>
+                                <p
+                                    data-i18n="The globe is unavailable. Your itinerary, places and backups still work."
+                                >
+                                    The globe is unavailable. Your itinerary, places and backups
+                                    still work.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <section id="city-planner" class="paper city-workspace" aria-labelledby="city-title">
+                <div class="section-heading">
+                    <span class="chapter">03</span>
+                    <h2 id="city-title" data-i18n="Attractions">Attractions</h2>
+                </div>
+                <p
+                    class="field-note"
+                    data-i18n="Plan places in visit order for each city and day. Addresses stay as text until you add coordinates."
+                >
+                    Plan places in visit order for each city and day. Addresses stay as text until
+                    you add coordinates.
+                </p>
+                <div class="two-fields poi-view-selectors">
+                    <div>
+                        <label for="poi-stop" data-i18n="City stop">City stop</label
+                        ><select id="poi-stop"></select>
+                    </div>
+                    <div>
+                        <label for="poi-day" data-i18n="City day">City day</label
+                        ><select id="poi-day"></select>
+                    </div>
+                </div>
+                <p
+                    id="poi-context"
+                    class="field-note poi-context"
+                    role="status"
+                    data-user-content
+                ></p>
+                <div class="city-columns">
+                    <div>
+                        <form id="poi-form" novalidate>
+                            <fieldset id="poi-fields">
+                                <label for="poi-name" data-i18n="Place name">Place name</label
+                                ><input
+                                    id="poi-name"
+                                    maxlength="120"
+                                    placeholder="Museum, garden, cafe…"
+                                    required
+                                /><label for="poi-address" data-i18n="Address">Address</label
+                                ><input
+                                    id="poi-address"
+                                    maxlength="300"
+                                    placeholder="Full address, entered by you"
+                                />
+                                <div class="two-fields">
+                                    <div>
+                                        <label for="poi-lat" data-i18n="Latitude">Latitude</label
+                                        ><input
+                                            id="poi-lat"
+                                            type="text"
+                                            inputmode="decimal"
+                                            maxlength="24"
+                                            placeholder="−90 to 90"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label for="poi-lon" data-i18n="Longitude">Longitude</label
+                                        ><input
+                                            id="poi-lon"
+                                            type="text"
+                                            inputmode="decimal"
+                                            maxlength="24"
+                                            placeholder="−180 to 180"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button
+                                        id="pick-on-map"
+                                        class="small-button"
+                                        type="button"
+                                        aria-pressed="false"
+                                        disabled
+                                        data-i18n="Pick a point on map"
+                                    >
+                                        Pick a point on map
+                                    </button>
+                                </div>
+                                <p id="poi-location-note" class="field-note" data-user-content>
+                                    Manual coordinates only; an address is not automatically
+                                    geocoded.
+                                </p>
+                                <label for="poi-notes" data-i18n="Visit notes">Visit notes</label
+                                ><textarea
+                                    id="poi-notes"
+                                    rows="2"
+                                    maxlength="500"
+                                    placeholder="Opening hours, booking, duration…"
+                                ></textarea>
+                                <div class="form-actions">
+                                    <button
+                                        id="poi-submit"
+                                        class="primary"
+                                        type="submit"
+                                        data-i18n="Add attraction"
+                                    >
+                                        Add attraction</button
+                                    ><button
+                                        id="poi-cancel"
+                                        class="text-button"
+                                        type="button"
+                                        hidden
+                                        data-i18n="Cancel edit"
+                                    >
+                                        Cancel edit
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <div id="poi-list"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="wrap">
+            <details id="sources" class="source-notes">
+                <summary aria-label="Data sources and privacy" aria-expanded="false">
+                    <span class="footer-group"
+                        ><span class="footer-brand" aria-hidden="true">roamnest.</span
+                        ><span class="footer-disclosure-button"
+                            ><span class="privacy-icon" aria-hidden="true">◈</span
+                            ><span data-i18n="Data sources and privacy"
+                                >Data sources and privacy</span
+                            ></span
+                        ></span
+                    >
+                </summary>
+                <div class="source-sections">
+                    <section class="source-section">
+                        <h3 data-i18n="Maps and geography">Maps and geography</h3>
+                        <p
+                            data-i18n="Bundled geography. Optional IP centering contacts GeoJS when you open Explore; switch it off to skip. A valid itinerary loads street tiles automatically; road routing needs an explicit action."
+                        >
+                            Bundled geography. Optional IP centering contacts GeoJS when you open
+                            Explore; switch it off to skip. A valid itinerary loads street tiles
+                            automatically; road routing needs an explicit action.
+                        </p>
+                        <p>
+                            <a
+                                href="https://ourairports.com/data/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >OurAirports ↗</a
+                            >
+                            ·
+                            <a
+                                href="https://www.naturalearthdata.com/about/terms-of-use/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >Natural Earth ↗</a
+                            >
+                            ·
+                            <a
+                                href="https://github.com/mborsetti/airportsdata"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >airportsdata ↗</a
+                            >
+                            · <span data-i18n="Airport snapshot">Airport snapshot</span>:
+                            <span id="data-time" data-user-content>…</span>
+                        </p>
+                        <p
+                            data-i18n="Airport coordinates represent the city; they are not hotel positions or exact city centers."
+                        >
+                            Airport coordinates represent the city; they are not hotel positions or
+                            exact city centers.
+                        </p>
+                        <p
+                            data-i18n="Generalized forest biomes: RESOLVE Ecoregions 2017 (CC BY 4.0). Major rivers: Natural Earth (public domain)."
+                        >
+                            Generalized forest biomes: RESOLVE Ecoregions 2017 (CC BY 4.0). Major
+                            rivers: Natural Earth (public domain).
+                        </p>
+                        <p>
+                            <a
+                                href="https://ecoregions.appspot.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >RESOLVE Ecoregions 2017 ↗</a
+                            >
+                            ·
+                            <a
+                                href="https://creativecommons.org/licenses/by/4.0/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >CC BY 4.0 ↗</a
+                            >
+                            ·
+                            <a
+                                href="./data/geography-provenance.json"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >Source & derivation ↗</a
+                            >
+                        </p>
+                        <p class="source-links">
+                            <a
+                                href="https://operations.osmfoundation.org/policies/tiles/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >OSM tile policy ↗</a
+                            >
+                            ·
+                            <a
+                                href="https://www.openstreetmap.org/copyright"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >OSM attribution ↗</a
+                            >
+                            ·
+                            <a
+                                href="https://routing.openstreetmap.de/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >FOSSGIS routing ↗</a
+                            >
+                        </p>
+                    </section>
+                    <section class="source-section">
+                        <h3 data-i18n="Saved on your device">Saved on your device</h3>
+                        <p
+                            data-i18n="Trips and language are saved only in this browser. Exports contain your itinerary and any legacy records; keep them private."
+                        >
+                            Trips and language are saved only in this browser. Exports contain your
+                            itinerary and any legacy records; keep them private.
+                        </p>
+                        <p
+                            data-i18n="Keep a backup: browser storage can be cleared or unavailable."
+                        >
+                            Keep a backup: browser storage can be cleared or unavailable.
+                        </p>
+                    </section>
+                    <section class="source-section">
+                        <h3 data-i18n="Location choices">Location choices</h3>
+                        <div class="ip-controls">
+                            <label class="ip-toggle"
+                                ><input id="ip-centering" type="checkbox" checked /><span
+                                    data-i18n="Center on approximate IP area"
+                                    >Center on approximate IP area</span
+                                ></label
+                            >
+                            <p
+                                class="field-note"
+                                data-i18n="Opening Explore makes at most one GeoJS / Cloudflare IP lookup per page session. No GPS or trip data is sent; IP and location are not saved. VPNs may change the result."
+                            >
+                                Opening Explore makes at most one GeoJS / Cloudflare IP lookup per
+                                page session. No GPS or trip data is sent; IP and location are not
+                                saved. VPNs may change the result.
+                            </p>
+                            <p
+                                id="device-permission-status"
+                                class="field-note"
+                                data-user-content
+                            ></p>
+                            <p
+                                id="ip-status"
+                                class="field-note"
+                                role="status"
+                                data-user-content
+                            ></p>
+                            <a
+                                class="ip-privacy"
+                                href="https://www.geojs.io/privacy/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-i18n="Privacy ↗"
+                                >Privacy ↗</a
+                            >
+                        </div>
+                        <p
+                            data-i18n="Reset location requests device positioning only when clicked. If unavailable, it falls back to the optional IP lookup. Device coordinates stay in this page memory and are not saved or sent to providers."
+                        >
+                            Reset location requests device positioning only when clicked. If
+                            unavailable, it falls back to the optional IP lookup. Device coordinates
+                            stay in this page memory and are not saved or sent to providers.
+                        </p>
+                    </section>
+                    <section class="source-section">
+                        <h3 data-i18n="External directions">External directions</h3>
+                        <p
+                            data-i18n="Directions open Google Maps separately. This stop requests browser location, then optional IP if enabled; the selected origin is sent to Google Maps. Previous and Next start at this attraction. No precise location is saved."
+                        >
+                            Directions open Google Maps separately. This stop requests browser
+                            location, then optional IP if enabled; the selected origin is sent to
+                            Google Maps. Previous and Next start at this attraction. No precise
+                            location is saved.
+                        </p>
+                        <p class="source-links">
+                            <a
+                                href="https://developers.google.com/maps/documentation/urls/get-started#directions"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >Google Maps URL docs ↗</a
+                            >
+                        </p>
+                    </section>
+                </div>
+            </details>
+        </footer>
+        <dialog id="import-dialog" aria-labelledby="import-title">
+            <h2 id="import-title" data-i18n="Review backup">Review backup</h2>
+            <div id="import-summary" data-user-content></div>
+            <p id="import-error" role="alert" class="honesty" hidden></p>
+            <p
+                class="field-note"
+                data-i18n="Import as a new trip keeps the current trip. Matching backups can fill missing coordinates and addresses in the current trip."
+            >
+                Import as a new trip keeps the current trip. Matching backups can fill missing
+                coordinates and addresses in the current trip.
+            </p>
+            <div class="form-actions">
+                <button id="import-update-coordinates" class="primary" hidden>
+                    <span data-i18n="Update missing place details in current trip"
+                        >Update missing place details in current trip</span
+                    >
+                    (<span id="coordinate-import-count" data-user-content></span>)</button
+                ><button id="import-confirm" class="primary" data-i18n="Import as a new trip">
+                    Import as a new trip</button
+                ><button id="import-cancel" class="secondary" data-i18n="Cancel">Cancel</button>
+            </div>
+        </dialog>
+        <noscript
+            ><p
+                class="noscript"
+                data-i18n="roamnest needs JavaScript for local planning and backups."
+            >
+                roamnest needs JavaScript for local planning and backups. roamnest 需要 JavaScript
+                才能使用本機規劃及備份。
+            </p></noscript
+        >
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "retrievedAt": "2026-10-04T17:36:13.245207+00:00",
+  "source": "https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv",
+  "licenseURL": "https://raw.githubusercontent.com/mborsetti/airportsdata/main/LICENSE",
+  "license": "MIT",
+  "sourceBytes": 3077365,
+  "sourceSHA256": "516c57d9d999f7a3be28ca649d2badbe3b972f07e57dc6173ab973b72d51cf52",
+  "labelCodes": 191,
+  "matchedZones": 189,
+  "unknownCodes": [
+    "FRU",
+    "PNH"
+  ],
+  "method": "Exact airport IATA match, no country-based timezone guesses. Browser Intl applies its timezone database/DST."
+}

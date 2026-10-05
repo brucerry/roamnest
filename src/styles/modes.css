@@ -1,0 +1,173 @@
+/* Explicit modes keep planner DOM, values and layout intact. */
+.masthead .mode-toggle {
+    min-height: 42px;
+    padding: 8px 12px;
+    background: #e9b95b;
+    color: #173b36;
+    border-color: #f4ce80;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.masthead > .motion-toggle {
+    margin: 0;
+    min-height: 42px;
+    white-space: nowrap;
+}
+.masthead {
+    gap: 18px;
+}
+.workspace-bar {
+    text-shadow: 0 1px 4px #052e3bd9;
+}
+.planning-column > section,
+.view-column > section,
+.city-workspace,
+.workspace-bar,
+.source-notes,
+.masthead,
+footer {
+    transition:
+        transform var(--mode-duration, 480ms) cubic-bezier(0.42, 0, 0.58, 1),
+        opacity var(--mode-duration, 480ms) linear,
+        visibility 0s;
+}
+.mode-globe .planning-column > section {
+    transform: translateX(var(--mode-exit-x, calc(-100vw - 100%)));
+}
+.mode-globe .view-column > section {
+    transform: translateX(var(--mode-exit-x, calc(100vw + 100%)));
+}
+.mode-globe .city-workspace {
+    transform: translateY(var(--mode-exit-y, 110vh));
+}
+.mode-globe .workspace-bar,
+.mode-globe .source-notes {
+    transform: translateY(-50px);
+}
+.mode-globe .masthead {
+    transform: translateY(-120%);
+}
+.mode-globe footer {
+    transform: translateY(120%);
+}
+.mode-globe .planning-column > section,
+.mode-globe .view-column > section,
+.mode-globe .city-workspace,
+.mode-globe .workspace-bar,
+.mode-globe .source-notes,
+.mode-globe .masthead,
+.mode-globe footer {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        transform var(--mode-duration, 480ms) cubic-bezier(0.42, 0, 0.58, 1),
+        opacity var(--mode-duration, 480ms) linear,
+        visibility 0s var(--mode-duration, 480ms);
+}
+html.mode-globe,
+body.mode-globe {
+    overflow: hidden;
+    height: 100dvh;
+}
+.mode-globe #main {
+    pointer-events: none;
+}
+.mode-globe .globe-backdrop {
+    z-index: 0;
+    pointer-events: auto;
+}
+.mode-globe .globe-backdrop canvas {
+    pointer-events: auto;
+    touch-action: none;
+    cursor: grab;
+    opacity: 1;
+}
+.mode-globe .globe-backdrop canvas:active {
+    cursor: grabbing;
+}
+.mode-globe .skip {
+    visibility: hidden;
+}
+.globe-return {
+    position: fixed;
+    left: max(18px, env(safe-area-inset-left));
+    top: max(18px, env(safe-area-inset-top));
+    z-index: 20;
+    background: #fff8dcf2;
+    color: #1e493e;
+    border: 1px solid #d9b765;
+    border-radius: 999px;
+    min-height: 46px;
+    padding: 10px 18px;
+    box-shadow: 0 3px 18px #194c472b;
+    font-weight: 600;
+}
+.globe-return:hover {
+    background: #fff3c4;
+}
+.globe-backdrop canvas:focus-visible {
+    outline: 3px solid #ffd16d;
+    outline-offset: -5px;
+}
+.ambient-tools .globe-controls {
+    display: none !important;
+}
+#plan-settings > #start-date {
+    max-width: 360px;
+}
+@media (max-width: 1100px) {
+    .masthead {
+        gap: 12px;
+    }
+    nav {
+        gap: 12px;
+    }
+    .mode-toggle {
+        font-size: 13px;
+    }
+    .masthead > .motion-toggle {
+        font-size: 12px;
+        padding: 7px 9px;
+    }
+}
+@media (max-width: 760px) {
+    .masthead {
+        height: auto;
+        min-height: 105px;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        padding: 10px 0;
+    }
+    .masthead .brand {
+        margin-right: auto;
+    }
+    .masthead .language-switch {
+        margin-left: 0;
+    }
+    .masthead nav {
+        display: none;
+    }
+    .masthead > .motion-toggle {
+        margin-left: auto;
+    }
+    .masthead .mode-toggle {
+        padding: 8px 12px;
+    }
+    .language-switch > button {
+        min-height: 40px;
+    }
+    html {
+        scroll-padding-top: 115px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .planning-column > section,
+    .view-column > section,
+    .city-workspace,
+    .workspace-bar,
+    .source-notes,
+    .masthead,
+    footer {
+        transition: none !important;
+    }
+}
