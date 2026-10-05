@@ -5,14 +5,24 @@ import http from 'node:http';
 import assert from 'node:assert/strict';
 import { blankPlan } from '../../dist/src/domain/planner.js';
 async function waitForHover(page, button) {
+    // Cancel any smooth reveal scroll before placing the pointer over the button.
+    await button.evaluate((node) => node.scrollIntoView({ behavior: 'instant', block: 'center' }));
+    await button.hover();
     const element = await button.elementHandle();
+    let sample;
     try {
-        await page.waitForFunction(
-            (node) =>
-                Math.abs(new DOMMatrixReadOnly(getComputedStyle(node).transform).m42 + 1) < 0.02,
-            element,
-        );
+        sample = await page.waitForFunction((node) => {
+            const offset = new DOMMatrixReadOnly(getComputedStyle(node).transform).m42;
+            const transitioning = node
+                .getAnimations()
+                .some((animation) => animation.pending || animation.playState === 'running');
+            return node.matches(':hover') && !transitioning && Math.abs(offset + 1) < 0.02
+                ? offset
+                : false;
+        }, element);
+        return await sample.jsonValue();
     } finally {
+        await sample?.dispose();
         await element.dispose();
     }
 }
@@ -276,14 +286,10 @@ try {
             if (!(await group.evaluate((e) => e.open))) await group.locator('summary').click();
             for (const day of [...new Set([0, stop.nights - 1])]) {
                 const button = group.locator('.day-row').nth(day).locator('button');
-                await button.hover();
-                await waitForHover(page, button);
+                const hoverOffset = await waitForHover(page, button);
                 assert.ok(
-                    Math.abs(
-                        (await button.evaluate(
-                            (e) => new DOMMatrixReadOnly(getComputedStyle(e).transform).m42,
-                        )) + 1,
-                    ) < 0.02,
+                    Math.abs(hoverOffset + 1) < 0.02,
+                    `${width}/${stop.id}/${day}: hover offset ${hoverOffset}`,
                 );
                 await page.keyboard.press('Tab');
                 await button.focus();
@@ -305,16 +311,14 @@ try {
                 );
                 assert.equal(await button.getAttribute('aria-pressed'), 'true');
                 await page.locator('#daily').scrollIntoViewIfNeeded();
-                await button.hover();
-                await waitForHover(page, button);
+                const selectedHoverOffset = await waitForHover(page, button);
                 assert.ok(
-                    Math.abs(
-                        (await button.evaluate(
-                            (e) => new DOMMatrixReadOnly(getComputedStyle(e).transform).m42,
-                        )) + 1,
-                    ) < 0.02,
+                    Math.abs(selectedHoverOffset + 1) < 0.02,
+                    `${width}/${stop.id}/${day}: selected hover offset ${selectedHoverOffset}`,
                 );
-                await page.locator('#trip-name').focus();
+                await page
+                    .locator('#trip-name')
+                    .evaluate((node) => node.focus({ preventScroll: true }));
                 await page.mouse.move(0, 0);
                 assert.equal(await group.evaluate((e) => e.open), true);
                 await page.waitForFunction(
