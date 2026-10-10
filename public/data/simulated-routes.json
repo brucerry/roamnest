@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "catalogId": "curated-nonstop-routes-2026-10-05",
-  "checkedDate": "2026-10-05",
-  "scope": "18 enabled directional nonstop passenger airport pairs supported by opened official source content. Eight indexed candidates are separate and disabled. Bounded coverage, not exhaustive or date-specific availability.",
-  "routeCount": 18,
-  "verifiedEnabledCount": 18,
+  "catalogId": "curated-nonstop-routes-2026-10-10",
+  "checkedDate": "2026-10-10",
+  "scope": "48 enabled directional nonstop passenger airport pairs supported by opened official source content. Each route retains its own check date. Eight indexed candidates are separate and disabled. Bounded coverage, not exhaustive or date-specific availability.",
+  "routeCount": 48,
+  "verifiedEnabledCount": 48,
   "candidateCount": 8,
   "candidateFile": "route-candidates-disabled-2026-10-05.json",
   "simulation": {
@@ -32,8 +32,8 @@
     "Load only enabled routes; never merge disabled candidates without fully opening primary sources."
   ],
   "uiDisclosure": {
-    "en": "18 researched routes • checked 5 Oct 2026 • simulated traffic • limited route coverage",
-    "zhHant": "已查核 18 條航線 · 查核日期 2026/10/05 · 模擬動態 · 航線收錄範圍有限"
+    "en": "48 researched routes • expanded 10 Oct 2026 • simulated traffic • limited route coverage",
+    "zhHant": "已查核 48 條航線 · 擴充日期 2026/10/10 · 模擬動態 · 航線收錄範圍有限"
   },
   "evidencePolicy": {
     "accepted": "Directly opened official airport nonstop lists, operating statements, or individual airline sectors. Indexed content alone is insufficient.",
@@ -997,6 +997,1554 @@
         "supportingSourceURLs": []
       },
       "seasonality": "Source marks the route year-round; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-BNE",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "BNE",
+        "city": {
+          "en": "Brisbane",
+          "zhHant": "布里斯本"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "AKL-OOL",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "OOL",
+        "city": {
+          "en": "Gold Coast",
+          "zhHant": "黃金海岸"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Seasonal service; exact operating dates must be checked with the airline"
+    },
+    {
+      "id": "AKL-ADL",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "ADL",
+        "city": {
+          "en": "Adelaide",
+          "zhHant": "阿德萊德"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "AKL-PER",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "PER",
+        "city": {
+          "en": "Perth",
+          "zhHant": "珀斯"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "AKL-HBA",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "HBA",
+        "city": {
+          "en": "Hobart",
+          "zhHant": "荷巴特"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Seasonal October–March service; exact operating dates must be checked"
+    },
+    {
+      "id": "AKL-CNS",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "CNS",
+        "city": {
+          "en": "Cairns",
+          "zhHant": "凱恩斯"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Seasonal April–October service; exact operating dates must be checked"
+    },
+    {
+      "id": "AKL-MCY",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "MCY",
+        "city": {
+          "en": "Sunshine Coast",
+          "zhHant": "陽光海岸"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly states nonstop operation from Auckland to this city",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Seasonal June–October service; exact operating dates must be checked"
+    },
+    {
+      "id": "CHC-SYD",
+      "origin": {
+        "iata": "CHC",
+        "city": {
+          "en": "Christchurch",
+          "zhHant": "基督城"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "SYD",
+        "city": {
+          "en": "Sydney",
+          "zhHant": "雪梨"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "CHC-MEL",
+      "origin": {
+        "iata": "CHC",
+        "city": {
+          "en": "Christchurch",
+          "zhHant": "基督城"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "MEL",
+        "city": {
+          "en": "Melbourne",
+          "zhHant": "墨爾本"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "WLG-SYD",
+      "origin": {
+        "iata": "WLG",
+        "city": {
+          "en": "Wellington",
+          "zhHant": "威靈頓"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "SYD",
+        "city": {
+          "en": "Sydney",
+          "zhHant": "雪梨"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "WLG-MEL",
+      "origin": {
+        "iata": "WLG",
+        "city": {
+          "en": "Wellington",
+          "zhHant": "威靈頓"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "MEL",
+        "city": {
+          "en": "Melbourne",
+          "zhHant": "墨爾本"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "ZQN-SYD",
+      "origin": {
+        "iata": "ZQN",
+        "city": {
+          "en": "Queenstown",
+          "zhHant": "皇后鎮"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "SYD",
+        "city": {
+          "en": "Sydney",
+          "zhHant": "雪梨"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "ZQN-MEL",
+      "origin": {
+        "iata": "ZQN",
+        "city": {
+          "en": "Queenstown",
+          "zhHant": "皇后鎮"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "MEL",
+        "city": {
+          "en": "Melbourne",
+          "zhHant": "墨爾本"
+        },
+        "countryCode": "AU",
+        "country": {
+          "en": "Australia",
+          "zhHant": "澳洲"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.co.nz/flights/en-nz/flights-to-australia",
+        "sourceType": "official_airline_explicit_nonstop_route_statement",
+        "sourceTitle": "Air New Zealand: Flights to Australia",
+        "summary": "Airline explicitly identifies this nonstop city pair",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "No date-specific schedule or frequency encoded"
+    },
+    {
+      "id": "AKL-HNL",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "HNL",
+        "city": {
+          "en": "Honolulu",
+          "zhHant": "檀香山"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-IAH",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "IAH",
+        "city": {
+          "en": "Houston",
+          "zhHant": "休斯敦"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": [
+          "https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-houston"
+        ]
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-JFK",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "JFK",
+        "city": {
+          "en": "New York",
+          "zhHant": "紐約"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": [
+          "https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-new-york"
+        ]
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-SFO",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "SFO",
+        "city": {
+          "en": "San Francisco",
+          "zhHant": "三藩市"
+        },
+        "countryCode": "US",
+        "country": {
+          "en": "United States",
+          "zhHant": "美國"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-YVR",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "YVR",
+        "city": {
+          "en": "Vancouver",
+          "zhHant": "溫哥華"
+        },
+        "countryCode": "CA",
+        "country": {
+          "en": "Canada",
+          "zhHant": "加拿大"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-RAR",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "RAR",
+        "city": {
+          "en": "Rarotonga",
+          "zhHant": "拉羅湯加"
+        },
+        "countryCode": "CK",
+        "country": {
+          "en": "Cook Islands",
+          "zhHant": "庫克群島"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-NAN",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "NAN",
+        "city": {
+          "en": "Nadi",
+          "zhHant": "楠迪"
+        },
+        "countryCode": "FJ",
+        "country": {
+          "en": "Fiji",
+          "zhHant": "斐濟"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-IUE",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "IUE",
+        "city": {
+          "en": "Niue",
+          "zhHant": "紐埃"
+        },
+        "countryCode": "NU",
+        "country": {
+          "en": "Niue",
+          "zhHant": "紐埃"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-APW",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "APW",
+        "city": {
+          "en": "Apia",
+          "zhHant": "阿皮亞"
+        },
+        "countryCode": "WS",
+        "country": {
+          "en": "Samoa",
+          "zhHant": "薩摩亞"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": [
+          "https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-apia"
+        ]
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-TBU",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "TBU",
+        "city": {
+          "en": "Nuku'alofa",
+          "zhHant": "努庫阿洛法"
+        },
+        "countryCode": "TO",
+        "country": {
+          "en": "Tonga",
+          "zhHant": "湯加"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "AKL-PPT",
+      "origin": {
+        "iata": "AKL",
+        "city": {
+          "en": "Auckland",
+          "zhHant": "奧克蘭"
+        },
+        "countryCode": "NZ",
+        "country": {
+          "en": "New Zealand",
+          "zhHant": "紐西蘭"
+        }
+      },
+      "destination": {
+        "iata": "PPT",
+        "city": {
+          "en": "Papeete",
+          "zhHant": "帕皮提"
+        },
+        "countryCode": "PF",
+        "country": {
+          "en": "French Polynesia",
+          "zhHant": "法屬玻里尼西亞"
+        }
+      },
+      "carrier": {
+        "iata": "NZ",
+        "name": {
+          "en": "Air New Zealand",
+          "zhHant": "紐西蘭航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.airnewzealand.com/en-nz/travel-info/destinations-we-fly-to",
+        "sourceType": "official_airline_nonstop_network_table",
+        "sourceTitle": "Air New Zealand: Where we fly",
+        "summary": "Destination appears in the airline nonstop-from-Auckland network table",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Source lists year-round service; individual departures remain subject to change"
+    },
+    {
+      "id": "DXB-SIN",
+      "origin": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "destination": {
+        "iata": "SIN",
+        "city": {
+          "en": "Singapore",
+          "zhHant": "新加坡"
+        },
+        "countryCode": "SG",
+        "country": {
+          "en": "Singapore",
+          "zhHant": "新加坡"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/sin/flights-from-dubai-to-singapore/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–Singapore flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK352"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
+    },
+    {
+      "id": "SIN-DXB",
+      "origin": {
+        "iata": "SIN",
+        "city": {
+          "en": "Singapore",
+          "zhHant": "新加坡"
+        },
+        "countryCode": "SG",
+        "country": {
+          "en": "Singapore",
+          "zhHant": "新加坡"
+        }
+      },
+      "destination": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/sin/flights-from-dubai-to-singapore/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–Singapore flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK353"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
+    },
+    {
+      "id": "DXB-NRT",
+      "origin": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "destination": {
+        "iata": "NRT",
+        "city": {
+          "en": "Tokyo Narita",
+          "zhHant": "東京成田"
+        },
+        "countryCode": "JP",
+        "country": {
+          "en": "Japan",
+          "zhHant": "日本"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/nrt/flights-from-dubai-to-tokyo-narita/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–Tokyo Narita flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK318"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
+    },
+    {
+      "id": "NRT-DXB",
+      "origin": {
+        "iata": "NRT",
+        "city": {
+          "en": "Tokyo Narita",
+          "zhHant": "東京成田"
+        },
+        "countryCode": "JP",
+        "country": {
+          "en": "Japan",
+          "zhHant": "日本"
+        }
+      },
+      "destination": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/nrt/flights-from-dubai-to-tokyo-narita/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–Tokyo Narita flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK319"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
+    },
+    {
+      "id": "DXB-LHR",
+      "origin": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "destination": {
+        "iata": "LHR",
+        "city": {
+          "en": "London",
+          "zhHant": "倫敦"
+        },
+        "countryCode": "GB",
+        "country": {
+          "en": "United Kingdom",
+          "zhHant": "英國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/lhr/flights-from-dubai-to-london-heathrow/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–London flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK3"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
+    },
+    {
+      "id": "LHR-DXB",
+      "origin": {
+        "iata": "LHR",
+        "city": {
+          "en": "London",
+          "zhHant": "倫敦"
+        },
+        "countryCode": "GB",
+        "country": {
+          "en": "United Kingdom",
+          "zhHant": "英國"
+        }
+      },
+      "destination": {
+        "iata": "DXB",
+        "city": {
+          "en": "Dubai",
+          "zhHant": "杜拜"
+        },
+        "countryCode": "AE",
+        "country": {
+          "en": "United Arab Emirates",
+          "zhHant": "阿拉伯聯合大公國"
+        }
+      },
+      "carrier": {
+        "iata": "EK",
+        "name": {
+          "en": "Emirates",
+          "zhHant": "阿聯酋航空"
+        }
+      },
+      "routeType": "nonstop",
+      "enabled": true,
+      "checkedDate": "2026-10-10",
+      "verificationStatus": "verified_from_opened_official_content",
+      "evidence": {
+        "sourceURL": "https://www.emirates.com/english/destinations/dxb/lhr/flights-from-dubai-to-london-heathrow/",
+        "sourceType": "official_airline_current_route_schedule",
+        "sourceTitle": "Emirates: Dubai–London flight schedules",
+        "summary": "Opened schedule identifies both directions as individual airport-to-airport flight sectors",
+        "sourcePublishedDate": null,
+        "validFrom": null,
+        "validThrough": null,
+        "retrieval": "full_public_page",
+        "referenceFlightNumbers": [
+          "EK2"
+        ],
+        "supportingSourceURLs": []
+      },
+      "seasonality": "Undated schedule snapshot; no date-specific frequency or availability guaranteed"
     }
   ]
 }

@@ -413,6 +413,42 @@ try {
         check(
             width + ' origin/country selectors whitelist only researched directional destinations',
         );
+        assert.equal(
+            await page.locator('.simulated-route-settings').getAttribute('data-route-count'),
+            '48',
+        );
+        await choose('simulation-origin-country', 'NZ');
+        await choose('simulation-origin', 'AKL');
+        await choose('simulation-destination-country', 'PF');
+        assert.deepEqual(
+            await page
+                .locator('#simulation-destination option')
+                .evaluateAll((xs) => xs.map((x) => x.value)),
+            ['PPT'],
+        );
+        await page.locator('#simulation-toggle').click();
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-AKL-PPT',
+        );
+        assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-10/);
+        await choose('simulation-origin-country', 'AE');
+        await choose('simulation-destination-country', 'JP');
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-DXB-NRT',
+        );
+        assert.match(
+            await page.locator('.simulation-source-link').getAttribute('href'),
+            /emirates\.com\/english\/destinations\/dxb\/nrt\//,
+        );
+        await page.locator('#simulation-toggle').click();
+        await choose('simulation-origin-country', 'HK');
+        await choose('simulation-destination-country', 'CA');
+        check(
+            width +
+                ' expanded Pacific and Asian routes select, animate and retain official evidence',
+        );
         await page.locator('#simulation-toggle').click();
         await page.waitForTimeout(700);
         assert.equal(

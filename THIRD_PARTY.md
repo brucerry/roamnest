@@ -23,13 +23,14 @@ Ecoregions 2017, not current tree cover or individual trees. Source boundaries a
 tiny rings omitted for globe rendering. Rivers retain Natural Earth's generalized major-waterway
 coordinates; coverage is limited.
 
-The optional simulation uses only the 18 researched directional airport pairs in the
-[route catalog](public/data/simulated-routes.json), checked on 5 October 2026. Catalog evidence
-links are official airport or airline sources supplied through verified research. Reference flight
-numbers are retained solely as evidence; animated route IDs use `DEMO-` labels. The arc shape,
-progress, and timings are illustrative. The catalog neither tracks flights nor guarantees
-date-specific service; source timetable limits remain visible. Runtime uses local bundled data and
-exact OurAirports endpoint joins. Disabled research candidates are not bundled or loaded.
+The optional simulation uses only the 48 researched directional airport pairs in the
+[route catalog](public/data/simulated-routes.json), expanded on 10 October 2026. Each route retains
+its own check date. Catalog evidence links are official airport or airline sources supplied through
+verified research. Reference flight numbers are retained solely as evidence; animated route IDs use
+`DEMO-` labels. The arc shape, progress, and timings are illustrative. The catalog neither tracks
+flights nor guarantees date-specific service; source timetable limits remain visible. Runtime uses
+local bundled data and exact OurAirports endpoint joins. Disabled research candidates are not
+bundled or loaded.
 
 External services are optional or disclosed in the interface. Ordinary street tiles follow the
 [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/) with visible

@@ -1,5 +1,5 @@
 import type { Airport } from '../../domain/logic.js';
-import { currentLanguage } from '../../i18n/index.js';
+import { currentLanguage, t } from '../../i18n/index.js';
 import { createSpringSurface } from '../../ui/spring.js';
 import { distanceKm } from '../../domain/logic.js';
 
@@ -234,8 +234,8 @@ export function initializeSimulatedRoutes(
         panel.querySelector('.simulation-disclosure')!.textContent = failed
             ? words('Route catalog unavailable.', '航線資料暫時無法載入。')
             : words(
-                  `${routes.length} researched directions · checked ${catalog?.checkedDate ?? '2026-10-05'} · limited coverage`,
-                  `${routes.length} 條已查核方向 · 查核日期 ${catalog?.checkedDate ?? '2026-10-05'} · 收錄範圍有限`,
+                  `${routes.length} researched directions · catalog updated ${catalog?.checkedDate ?? 'unknown'} · limited coverage`,
+                  `${routes.length} 條已查核方向 · 資料更新 ${catalog?.checkedDate ?? '未知'} · 收錄範圍有限`,
               );
         toggle.textContent = words(
             enabled ? 'Hide route' : 'Show route',
@@ -271,7 +271,11 @@ export function initializeSimulatedRoutes(
                           'Source snapshot; schedules can change. Individual departures are unverified.',
                           '來源為查核時的資料；時間表可變動，個別航班未獲確認。',
                       );
-            panel.querySelector('.simulation-validity')!.textContent = period;
+            panel.querySelector('.simulation-validity')!.textContent =
+                words(`Checked ${route.checkedDate}. `, `查核日期 ${route.checkedDate}。`) +
+                period +
+                ' ' +
+                t(route.seasonality);
         }
         badge.hidden = !enabled;
         const caption = document.createElement('span');

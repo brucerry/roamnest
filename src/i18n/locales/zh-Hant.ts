@@ -705,4 +705,31 @@ export const dictionary: Record<string, string> = {
     unknown: '尚未查詢',
     '−180 to 180': '−180 至 180',
     '−90 to 90': '−90 至 90',
+    'Frequency varies at peak season; no fixed daily schedule or year-round guarantee encoded':
+        '旺季班次可能不同；此資料不保證每日或全年服務。',
+    'Evidence timetable covers 16 September–24 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 9 月 16 日至 10 月 24 日；其後服務未獲確認。',
+    'Undated current route schedule; flight times, frequency, and date-specific availability are not encoded':
+        '來源為未標日期的航線時間表；不保證航班時間、班次或指定日期可訂。',
+    'Use only EK380/381/382/383 as route evidence; EK384/385 through Bangkok are not evidence of nonstop HKG–DXB':
+        '直飛依據僅限 EK380/381/382/383；經曼谷的 EK384/385 不代表香港至杜拜直飛。',
+    'Snapshot dated 1 September 2026; no seasonal frequency or service on a specific day inferred':
+        '來源日期為 2026 年 9 月 1 日；不推斷季節性班次或指定日期服務。',
+    'Commercial page contains an explicit route statement; fares alone were not used; dates/frequency not guaranteed':
+        '航空公司網頁明確確認航線，並非僅根據票價；日期及班次仍須另行確認。',
+    'Source marks the route year-round; individual departures remain subject to change':
+        '來源標示全年服務；個別航班仍可能變動。',
+    'Source lists year-round service; individual departures remain subject to change':
+        '來源標示全年服務；個別航班仍可能變動。',
+    'No date-specific schedule or frequency encoded': '指定日期及班次須向航空公司確認。',
+    'Seasonal service; exact operating dates must be checked with the airline':
+        '季節性服務；確切營運日期須向航空公司確認。',
+    'Seasonal October–March service; exact operating dates must be checked':
+        '季節性服務期間為 10 月至 3 月；確切營運日期仍須確認。',
+    'Seasonal April–October service; exact operating dates must be checked':
+        '季節性服務期間為 4 月至 10 月；確切營運日期仍須確認。',
+    'Seasonal June–October service; exact operating dates must be checked':
+        '季節性服務期間為 6 月至 10 月；確切營運日期仍須確認。',
+    'Undated schedule snapshot; no date-specific frequency or availability guaranteed':
+        '來源為未標日期的時間表；不保證指定日期的班次或可訂情況。',
 };

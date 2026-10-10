@@ -45,10 +45,12 @@ test('long routes run about three times faster, short routes slower, glow bounde
     }
     assert.deepEqual(simulatedArcWindow(9999, true, long), { start: 0, end: 1, phase: 'static' });
 });
-test('verified directional whitelist joins all 18 exact airport coordinates', () => {
+test('expanded directional whitelist joins all 48 exact airport coordinates', () => {
     const routes = joinVerifiedRoutes(catalog, airports);
-    assert.equal(routes.length, 18);
-    assert.equal(new Set(routes.map((r) => r.id)).size, 18);
+    assert.equal(routes.length, 48);
+    assert.equal(catalog.routeCount, routes.length);
+    assert.equal(catalog.verifiedEnabledCount, routes.length);
+    assert.equal(new Set(routes.map((r) => r.id)).size, 48);
     assert.deepEqual(
         routes.map((r) => r.id),
         [
@@ -70,6 +72,36 @@ test('verified directional whitelist joins all 18 exact airport coordinates', ()
             'AKL-SYD',
             'AKL-MEL',
             'AKL-LAX',
+            'AKL-BNE',
+            'AKL-OOL',
+            'AKL-ADL',
+            'AKL-PER',
+            'AKL-HBA',
+            'AKL-CNS',
+            'AKL-MCY',
+            'CHC-SYD',
+            'CHC-MEL',
+            'WLG-SYD',
+            'WLG-MEL',
+            'ZQN-SYD',
+            'ZQN-MEL',
+            'AKL-HNL',
+            'AKL-IAH',
+            'AKL-JFK',
+            'AKL-SFO',
+            'AKL-YVR',
+            'AKL-RAR',
+            'AKL-NAN',
+            'AKL-IUE',
+            'AKL-APW',
+            'AKL-TBU',
+            'AKL-PPT',
+            'DXB-SIN',
+            'SIN-DXB',
+            'DXB-NRT',
+            'NRT-DXB',
+            'DXB-LHR',
+            'LHR-DXB',
         ],
     );
     for (const r of routes) {
@@ -84,13 +116,13 @@ test('missing coordinates, wrong country and disabled evidence never create rout
             catalog,
             airports.filter((a) => a.code !== 'HKG'),
         ).length,
-        10,
+        40,
     );
     const altered = structuredClone(catalog);
     altered.routes[0].enabled = false;
     altered.routes[1].origin.countryCode = 'ZZ';
     altered.routes[2].verificationStatus = 'indexed_only';
-    assert.equal(joinVerifiedRoutes(altered, airports).length, 15);
+    assert.equal(joinVerifiedRoutes(altered, airports).length, 45);
     assert.equal(
         joinVerifiedRoutes(
             { ...catalog, simulation: { ...catalog.simulation, liveFlightTracking: true } },
@@ -100,7 +132,13 @@ test('missing coordinates, wrong country and disabled evidence never create rout
     );
     assert.equal(
         joinVerifiedRoutes(catalog, airports).some(
-            (r) => r.id === 'LHR-ORD' || r.id === 'HKG-YYZ' || r.id === 'AKL-ORD',
+            (r) =>
+                r.id === 'LHR-ORD' ||
+                r.id === 'HKG-YYZ' ||
+                r.id === 'AKL-ORD' ||
+                r.id === 'AKL-WSI' ||
+                r.id === 'CHC-PER' ||
+                r.id === 'NAN-AKL',
         ),
         false,
     );
@@ -115,6 +153,9 @@ test('source limits and real flight references stay evidence rather than animate
     );
     assert.equal(catalog.simulation.realFlightNumbersForAnimatedObjects, false);
     assert.equal(catalog.simulation.runtimeFlightAPIRequired, false);
+    assert.equal(catalog.routes.filter((r) => r.checkedDate === '2026-10-10').length, 30);
+    assert.match(catalog.routes.find((r) => r.id === 'AKL-CNS').seasonality, /April–October/);
+    assert.match(catalog.routes.find((r) => r.id === 'AKL-HBA').seasonality, /October–March/);
 });
 test('draw and erase both progress from origin to destination and loop continuously', () => {
     assert.deepEqual(simulatedArcWindow(0), { start: 0, end: 0, phase: 'drawing' });

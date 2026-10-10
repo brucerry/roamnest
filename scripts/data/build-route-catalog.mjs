@@ -17,6 +17,28 @@ const endpoints = {
     SYD: ['Sydney', '雪梨', 'AU', 'Australia', '澳洲'],
     MEL: ['Melbourne', '墨爾本', 'AU', 'Australia', '澳洲'],
     LAX: ['Los Angeles', '洛杉磯', 'US', 'United States', '美國'],
+    CHC: ['Christchurch', '基督城', 'NZ', 'New Zealand', '紐西蘭'],
+    WLG: ['Wellington', '威靈頓', 'NZ', 'New Zealand', '紐西蘭'],
+    ZQN: ['Queenstown', '皇后鎮', 'NZ', 'New Zealand', '紐西蘭'],
+    BNE: ['Brisbane', '布里斯本', 'AU', 'Australia', '澳洲'],
+    OOL: ['Gold Coast', '黃金海岸', 'AU', 'Australia', '澳洲'],
+    ADL: ['Adelaide', '阿德萊德', 'AU', 'Australia', '澳洲'],
+    PER: ['Perth', '珀斯', 'AU', 'Australia', '澳洲'],
+    HBA: ['Hobart', '荷巴特', 'AU', 'Australia', '澳洲'],
+    CNS: ['Cairns', '凱恩斯', 'AU', 'Australia', '澳洲'],
+    MCY: ['Sunshine Coast', '陽光海岸', 'AU', 'Australia', '澳洲'],
+    HNL: ['Honolulu', '檀香山', 'US', 'United States', '美國'],
+    IAH: ['Houston', '休斯敦', 'US', 'United States', '美國'],
+    JFK: ['New York', '紐約', 'US', 'United States', '美國'],
+    SFO: ['San Francisco', '三藩市', 'US', 'United States', '美國'],
+    RAR: ['Rarotonga', '拉羅湯加', 'CK', 'Cook Islands', '庫克群島'],
+    NAN: ['Nadi', '楠迪', 'FJ', 'Fiji', '斐濟'],
+    IUE: ['Niue', '紐埃', 'NU', 'Niue', '紐埃'],
+    APW: ['Apia', '阿皮亞', 'WS', 'Samoa', '薩摩亞'],
+    TBU: ["Nuku'alofa", '努庫阿洛法', 'TO', 'Tonga', '湯加'],
+    PPT: ['Papeete', '帕皮提', 'PF', 'French Polynesia', '法屬玻里尼西亞'],
+    SIN: ['Singapore', '新加坡', 'SG', 'Singapore', '新加坡'],
+    NRT: ['Tokyo Narita', '東京成田', 'JP', 'Japan', '日本'],
 };
 const airport = (code) => {
     const [cityEn, cityZh, countryCode, countryEn, countryZh] = endpoints[code];
@@ -111,7 +133,16 @@ const lax = evidence(
     'Los Angeles is listed in the non-stop-from-Auckland network table',
 );
 const routes = [];
-function add(from, to, carrier, source, seasonality, refs = [], support = []) {
+function add(
+    from,
+    to,
+    carrier,
+    source,
+    seasonality,
+    refs = [],
+    support = [],
+    checked = '2026-10-05',
+) {
     routes.push({
         id: from + '-' + to,
         origin: airport(from),
@@ -122,7 +153,7 @@ function add(from, to, carrier, source, seasonality, refs = [], support = []) {
         },
         routeType: 'nonstop',
         enabled: true,
-        checkedDate: '2026-10-05',
+        checkedDate: checked,
         verificationStatus: 'verified_from_opened_official_content',
         evidence: { ...source, referenceFlightNumbers: refs, supportingSourceURLs: support },
         seasonality,
@@ -183,13 +214,69 @@ add(
     lax,
     'Source marks the route year-round; individual departures remain subject to change',
 );
+// New directions are individually supported; the return leg is never inferred.
+const addCurrent = (from, to, source, seasonality, carrier = 'NZ', refs = []) =>
+    add(from, to, carrier, source, seasonality, refs, source.supportingSourceURLs, '2026-10-10');
+for (const [dest, seasonality] of [
+    ['BNE', 'No date-specific schedule or frequency encoded'],
+    ['OOL', 'Seasonal service; exact operating dates must be checked with the airline'],
+    ['ADL', 'No date-specific schedule or frequency encoded'],
+    ['PER', 'No date-specific schedule or frequency encoded'],
+    ['HBA', 'Seasonal October–March service; exact operating dates must be checked'],
+    ['CNS', 'Seasonal April–October service; exact operating dates must be checked'],
+    ['MCY', 'Seasonal June–October service; exact operating dates must be checked'],
+])
+    addCurrent('AKL', dest, australia, seasonality);
+for (const from of ['CHC', 'WLG', 'ZQN'])
+    for (const to of ['SYD', 'MEL'])
+        addCurrent(
+            from,
+            to,
+            { ...australia, summary: 'Airline explicitly identifies this nonstop city pair' },
+            'No date-specific schedule or frequency encoded',
+        );
+const network = {
+    ...lax,
+    summary: 'Destination appears in the airline nonstop-from-Auckland network table',
+};
+const endpointEvidence = {
+    JFK: 'https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-new-york',
+    IAH: 'https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-houston',
+    APW: 'https://www.airnewzealand.co.nz/flights/en-nz/flights-from-auckland-to-apia',
+};
+for (const to of ['HNL', 'IAH', 'JFK', 'SFO', 'YVR', 'RAR', 'NAN', 'IUE', 'APW', 'TBU', 'PPT'])
+    addCurrent(
+        'AKL',
+        to,
+        {
+            ...network,
+            supportingSourceURLs: endpointEvidence[to] ? [endpointEvidence[to]] : [],
+        },
+        'Source lists year-round service; individual departures remain subject to change',
+    );
+for (const [to, slug, outbound, inbound] of [
+    ['SIN', 'singapore', ['EK352'], ['EK353']],
+    ['NRT', 'tokyo-narita', ['EK318'], ['EK319']],
+    ['LHR', 'london-heathrow', ['EK3'], ['EK2']],
+]) {
+    const source = evidence(
+        `https://www.emirates.com/english/destinations/dxb/${to.toLowerCase()}/flights-from-dubai-to-${slug}/`,
+        'official_airline_current_route_schedule',
+        `Emirates: Dubai–${endpoints[to][0]} flight schedules`,
+        'Opened schedule identifies both directions as individual airport-to-airport flight sectors',
+    );
+    const limit =
+        'Undated schedule snapshot; no date-specific frequency or availability guaranteed';
+    addCurrent('DXB', to, source, limit, 'EK', outbound);
+    addCurrent(to, 'DXB', source, limit, 'EK', inbound);
+}
 const catalog = {
     schemaVersion: 2,
-    catalogId: 'curated-nonstop-routes-2026-10-05',
-    checkedDate: '2026-10-05',
-    scope: '18 enabled directional nonstop passenger airport pairs supported by opened official source content. Eight indexed candidates are separate and disabled. Bounded coverage, not exhaustive or date-specific availability.',
-    routeCount: 18,
-    verifiedEnabledCount: 18,
+    catalogId: 'curated-nonstop-routes-2026-10-10',
+    checkedDate: '2026-10-10',
+    scope: `${routes.length} enabled directional nonstop passenger airport pairs supported by opened official source content. Each route retains its own check date. Eight indexed candidates are separate and disabled. Bounded coverage, not exhaustive or date-specific availability.`,
+    routeCount: routes.length,
+    verifiedEnabledCount: routes.length,
     candidateCount: 8,
     candidateFile: 'route-candidates-disabled-2026-10-05.json',
     simulation: {
@@ -214,8 +301,8 @@ const catalog = {
         'Load only enabled routes; never merge disabled candidates without fully opening primary sources.',
     ],
     uiDisclosure: {
-        en: '18 researched routes • checked 5 Oct 2026 • simulated traffic • limited route coverage',
-        zhHant: '已查核 18 條航線 · 查核日期 2026/10/05 · 模擬動態 · 航線收錄範圍有限',
+        en: `${routes.length} researched routes • expanded 10 Oct 2026 • simulated traffic • limited route coverage`,
+        zhHant: `已查核 ${routes.length} 條航線 · 擴充日期 2026/10/10 · 模擬動態 · 航線收錄範圍有限`,
     },
     evidencePolicy: {
         accepted:
