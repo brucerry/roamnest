@@ -138,6 +138,7 @@ export function directionsURL(from: POI | null, to: POI, city: string, mode: Tra
     if (!destination || (from && !origin)) return '';
     const params = new URLSearchParams({
         api: '1',
+        dir_action: 'navigate',
         destination,
         travelmode: mode === 'car' ? 'driving' : mode === 'bike' ? 'bicycling' : 'walking',
     });

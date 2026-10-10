@@ -1,4 +1,3 @@
-import { requestNavigationOrigin } from '../../services/location.js';
 import { afterModeTransition } from '../../ui/modes.js';
 import { travelIcon } from '../../ui/icons.js';
 import { addDays } from '../../domain/logic.js';
@@ -277,7 +276,6 @@ export function createCityPlanner(
                 });
                 const originStatus = text('p', '', 'navigation-origin-status');
                 originStatus.setAttribute('role', 'status');
-                let locating = false;
                 const update = (): void => {
                     const chosen =
                         target.value === 'previous'
@@ -320,58 +318,18 @@ export function createCityPlanner(
                         links.some(({ a }) => !a.hasAttribute('href'))
                             ? 'Directions need coordinates or an address for both selected places.'
                             : target.value === 'this'
-                              ? 'This stop uses browser location, then optional IP if enabled. The chosen origin is sent to Google Maps.'
+                              ? 'Google Maps uses your current location if available; otherwise choose your start there.'
                               : 'Directions start at this attraction and go to the selected adjacent attraction.',
                     );
                 };
-                for (const { a, profile } of links)
-                    a.addEventListener('click', async (event) => {
+                for (const { a } of links)
+                    a.addEventListener('click', (event) => {
                         if (!a.hasAttribute('href')) {
                             event.preventDefault();
                             return;
                         }
-                        if (target.value !== 'this') return;
-                        event.preventDefault();
-                        if (locating) return;
-                        const popup = window.open('about:blank', '_blank');
-                        if (!popup) {
-                            notify('Allow a new tab to open directions, then try again.');
-                            return;
-                        }
-                        popup.opener = null;
-                        popup.document.title = 'roamnest';
-                        popup.document.body.textContent = t('Finding your directions origin…');
-                        const referrer = popup.document.createElement('meta');
-                        referrer.name = 'referrer';
-                        referrer.content = 'no-referrer';
-                        popup.document.head.append(referrer);
-                        locating = true;
-                        a.setAttribute('aria-busy', 'true');
-                        originStatus.textContent = t('Finding your directions origin…');
-                        try {
-                            const resolved = await requestNavigationOrigin(),
-                                origin = resolved
-                                    ? { ...poi, lat: resolved.area.lat, lon: resolved.area.lon }
-                                    : null;
-                            const url = directionsURL(origin, poi, s.name, profile);
-                            originStatus.textContent = t(
-                                resolved
-                                    ? resolved.source === 'ip'
-                                        ? 'Approximate IP origin used; verify your start in Google Maps.'
-                                        : 'Browser location used as the directions origin.'
-                                    : 'Location unavailable. Choose your start in Google Maps.',
-                            );
-                            if (url && !popup.closed) popup.location.replace(url);
-                        } catch {
-                            originStatus.textContent = t(
-                                'Location unavailable. Choose your start in Google Maps.',
-                            );
-                            const url = directionsURL(null, poi, s.name, profile);
-                            if (url && !popup.closed) popup.location.replace(url);
-                        } finally {
-                            locating = false;
-                            a.removeAttribute('aria-busy');
-                        }
+                        // Follow the universal Maps URL during the original user gesture.
+                        // Maps resolves the current origin; no blank tab or location wait.
                     });
                 target.addEventListener('change', update);
                 navigation.prepend(target);

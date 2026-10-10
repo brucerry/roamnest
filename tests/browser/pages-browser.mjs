@@ -63,6 +63,13 @@ try {
                 await c.addInitScript(() => {
                     localStorage.setItem('roamnest-language', 'en');
                     localStorage.setItem('roamnest-ip-centering', 'off');
+                    window.navigationLocationRequests = 0;
+                    Object.defineProperty(navigator, 'geolocation', {
+                        value: {
+                            // Simulate an unanswered first-use permission prompt.
+                            getCurrentPosition: () => window.navigationLocationRequests++,
+                        },
+                    });
                 });
                 await c.route('https://**', (r) => r.abort());
                 const p = await c.newPage(),
@@ -102,6 +109,41 @@ try {
                 await p.locator('#poi-address').fill('A manually entered address');
                 await p.locator('#poi-submit').click();
                 await p.waitForSelector('.poi-target');
+                await c.route('https://www.google.com/maps/**', (route) =>
+                    route.fulfill({
+                        contentType: 'text/html',
+                        body: '<p>Maps test destination</p>',
+                    }),
+                );
+                for (const [profile, mode] of [
+                    ['foot', 'walking'],
+                    ['bike', 'bicycling'],
+                    ['car', 'driving'],
+                ]) {
+                    const opened = p.waitForEvent('popup');
+                    await p
+                        .locator('.poi-navigation .travel-icon.' + profile)
+                        .first()
+                        .click();
+                    const maps = await opened;
+                    await maps.waitForURL(
+                        (url) => url.hostname === 'www.google.com' && url.pathname === '/maps/dir/',
+                        { timeout: 4000 },
+                    );
+                    const params = new URL(maps.url()).searchParams;
+                    assert.equal(params.get('api'), '1');
+                    assert.equal(params.get('dir_action'), 'navigate');
+                    assert.equal(params.get('travelmode'), mode);
+                    assert.equal(
+                        params.get('destination'),
+                        'Example museum, A manually entered address, London',
+                    );
+                    assert.equal(params.has('origin'), false);
+                    assert.equal(await maps.evaluate(() => window.opener), null);
+                    await maps.close();
+                    checks++;
+                }
+                assert.equal(await p.evaluate(() => window.navigationLocationRequests), 0);
                 assert.equal(await p.locator('#notice').getAttribute('role'), 'status');
                 assert.equal(await p.locator('#notice').getAttribute('data-kind'), 'info');
                 assert.equal(

@@ -38,6 +38,6 @@ Explicit private road requests use [FOSSGIS](https://routing.openstreetmap.de/ab
 and size limits; public/commercial routing needs a separately approved suitable service.
 [GeoJS](https://www.geojs.io/docs/v1/endpoints/geo/) supplies approximate IP centering with
 [privacy disclosure](https://www.geojs.io/privacy/) and opt-out. Explicit directions use
-[Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started): device
-origin, approximate IP fallback, or manual choice; adjacent legs use the entered attraction as
-origin.
+[Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started) open directly
+in Maps. Maps resolves the current device origin or offers manual choice; adjacent legs use the
+entered attraction as origin.

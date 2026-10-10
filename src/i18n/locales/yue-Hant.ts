@@ -350,6 +350,8 @@ export const cantoneseMessages: Record<string, string> = {
     'This is not a supported roamnest backup.': '呢份唔係支援嘅 roamnest 備份。',
     'This place': '呢個景點',
     'This stop': '呢個景點',
+    'Google Maps uses your current location if available; otherwise choose your start there.':
+        'Google Maps 會喺可用時用你目前嘅位置；否則請喺地圖度揀起點。',
     'This stop uses browser location, then approximate IP if needed. The chosen origin is sent to Google Maps.':
         '本站先使用瀏覽器定位，必要時改用約略 IP 位置。選定起點會傳送至 Google Maps。',
     'This stop uses browser location, then optional IP if enabled. The chosen origin is sent to Google Maps.':

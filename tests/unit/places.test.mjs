@@ -188,9 +188,12 @@ test('directions modes distinguish explicit attraction origins and unresolved cu
         assert.equal(adjacent.searchParams.get('origin'), '52.52,13.41');
         assert.equal(adjacent.searchParams.get('destination'), '52.5,13.42');
         assert.equal(adjacent.searchParams.get('travelmode'), expected);
+        assert.equal(adjacent.searchParams.get('dir_action'), 'navigate');
         const current = new URL(directionsURL(null, a, 'Berlin', mode));
         assert.equal(current.searchParams.has('origin'), false);
         assert.equal(current.searchParams.get('destination'), '52.52,13.41');
+        assert.equal(current.searchParams.get('travelmode'), expected);
+        assert.equal(current.searchParams.get('dir_action'), 'navigate');
     }
     const unknown = { ...a, lat: null, lon: null, address: '' };
     assert.equal(directionsURL(unknown, b, 'Berlin', 'foot'), '');
