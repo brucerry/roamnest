@@ -709,6 +709,8 @@ export const dictionary: Record<string, string> = {
         '旺季班次可能不同；此資料不保證每日或全年服務。',
     'Evidence timetable covers 16 September–24 October 2026; service beyond that period is not asserted':
         '依據時間表涵蓋 2026 年 9 月 16 日至 10 月 24 日；其後服務未獲確認。',
+    'Evidence timetable covers 10–16 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 10 日至 16 日；其後服務未獲確認。',
     'Undated current route schedule; flight times, frequency, and date-specific availability are not encoded':
         '來源為未標日期的航線時間表；不保證航班時間、班次或指定日期可訂。',
     'Use only EK380/381/382/383 as route evidence; EK384/385 through Bangkok are not evidence of nonstop HKG–DXB':
@@ -732,4 +734,24 @@ export const dictionary: Record<string, string> = {
         '季節性服務期間為 6 月至 10 月；確切營運日期仍須確認。',
     'Undated schedule snapshot; no date-specific frequency or availability guaranteed':
         '來源為未標日期的時間表；不保證指定日期的班次或可訂情況。',
+    'Evidence timetable covers 7–13 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 7 日至 13 日；其後服務未獲確認。',
+    'Evidence timetable covers 5–11 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 5 日至 11 日；其後服務未獲確認。',
+    'Evidence timetable covers 1–24 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 1 日至 24 日；其後服務未獲確認。',
+    'July 2026 seasonal snapshot; no date-specific frequency or availability guaranteed':
+        '來源為 2026 年 7 月的季節性航線資料；不保證指定日期的班次或可訂情況。',
+    '2026 nonstop network with 10 October flight corroboration; future frequency or availability is not guaranteed':
+        '來源為 2026 年直飛網絡，並經 10 月 10 日航班資料核對；不保證之後的班次或可訂情況。',
+    'Matched airport sector sampled on 10 October 2026; service on other dates is not asserted':
+        '已核對兩地機場的 2026 年 10 月 10 日單一航段；其他日期的服務未獲確認。',
+    'Dated official sector snapshot; schedules can change and individual departures are not guaranteed':
+        '來源為標日期的官方單一航段資料；時間表可能變動，不保證個別航班。',
+    'Undated current official operating statement; schedules and availability can change':
+        '來源為未標日期的官方營運說明；時間表及可訂情況可能變動。',
+    'Official timetable snapshot; subject to operating approval and schedule changes':
+        '來源為官方時間表；仍須營運批准，航班安排可能變動。',
+    'Matched official airport sector records; status changes and cancellations are not live availability':
+        '已核對官方兩地機場航段資料；狀態變更及取消情況不代表即時可訂。',
 };

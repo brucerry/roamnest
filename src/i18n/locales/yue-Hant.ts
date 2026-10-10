@@ -1,4 +1,6 @@
 export const cantoneseMessages: Record<string, string> = {
+    'Evidence timetable covers 10–16 October 2026; service beyond that period is not asserted':
+        '查核嘅時間表涵蓋 2026 年 10 月 10 日至 16 日；之後嘅服務未確認。',
     'A valid itinerary automatically loads street tiles, sending viewed areas and your IP to OpenStreetMap. No offline tile downloads.':
         '有效旅程會自動載入街道地圖，將睇緊嘅範圍同IP傳送畀OpenStreetMap。唔會離線下載地圖。',
     'Add activities, reservations or reminders': '加活動、預約或者提醒',
@@ -399,4 +401,24 @@ export const cantoneseMessages: Record<string, string> = {
     stops: '站',
     unavailable: '查詢唔到',
     unknown: '未查詢',
+    'Evidence timetable covers 7–13 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 7 日至 13 日；之後嘅服務未確認。',
+    'Evidence timetable covers 5–11 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 5 日至 11 日；之後嘅服務未確認。',
+    'Evidence timetable covers 1–24 October 2026; service beyond that period is not asserted':
+        '依據時間表涵蓋 2026 年 10 月 1 日至 24 日；之後嘅服務未確認。',
+    'July 2026 seasonal snapshot; no date-specific frequency or availability guaranteed':
+        '來源係 2026 年 7 月嘅季節性航線資料；唔保證指定日期嘅班次或可訂情況。',
+    '2026 nonstop network with 10 October flight corroboration; future frequency or availability is not guaranteed':
+        '來源係 2026 年直飛網絡，並經 10 月 10 日航班資料核對；唔保證之後嘅班次或可訂情況。',
+    'Matched airport sector sampled on 10 October 2026; service on other dates is not asserted':
+        '已核對兩地機場嘅 2026 年 10 月 10 日單一航段；其他日期嘅服務未確認。',
+    'Dated official sector snapshot; schedules can change and individual departures are not guaranteed':
+        '來源係標日期嘅官方單一航段資料；時間表可能改動，唔保證個別航班。',
+    'Undated current official operating statement; schedules and availability can change':
+        '來源係未標日期嘅官方營運說明；時間表同可訂情況可能改動。',
+    'Official timetable snapshot; subject to operating approval and schedule changes':
+        '來源係官方時間表；仍須營運批准，航班安排可能改動。',
+    'Matched official airport sector records; status changes and cancellations are not live availability':
+        '已核對官方兩地機場航段資料；狀態改動同取消情況唔代表即時可訂。',
 };

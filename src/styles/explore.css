@@ -407,8 +407,57 @@
 }
 .simulation-fields {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
     gap: 12px;
+}
+.simulation-reverse {
+    align-self: center;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid #a983c0;
+    border-radius: 8px;
+    background: #ece0f4;
+    color: #563471;
+}
+.simulation-reverse svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.simulation-reverse:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.simulation-reverse:focus-visible {
+    outline: 3px solid #62407b;
+    outline-offset: 3px;
+}
+.simulation-reverse-reason,
+.simulation-reverse-status {
+    font-size: 12px;
+    line-height: 1.65;
+    margin: 8px 0 0;
+}
+.simulation-reverse-status:empty {
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+}
+@media (max-width: 420px) {
+    .simulation-fields {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+    .simulation-reverse {
+        justify-self: center;
+        margin-top: 12px;
+        transform: rotate(90deg);
+    }
 }
 .simulation-fields > div {
     min-width: 0;

@@ -41,6 +41,19 @@ export type RouteCatalog = {
     };
 };
 export type JoinedRoute = CatalogRoute & { from: Airport; to: Airport };
+export function reverseRoute(
+    routes: JoinedRoute[],
+    route: JoinedRoute | undefined,
+): JoinedRoute | undefined {
+    return (
+        route &&
+        routes.find(
+            (candidate) =>
+                candidate.origin.iata === route.destination.iata &&
+                candidate.destination.iata === route.origin.iata,
+        )
+    );
+}
 // Fail closed: only explicitly verified directions with exact, valid airport joins.
 export function joinVerifiedRoutes(catalog: RouteCatalog, airports: Airport[]): JoinedRoute[] {
     if (
@@ -128,6 +141,23 @@ export function initializeSimulatedRoutes(
     root.innerHTML =
         '<section id="simulated-route-panel" class="simulated-route-panel" role="dialog" aria-modal="false" aria-labelledby="simulated-route-title" hidden><div class="simulation-heading"><h2 id="simulated-route-title"></h2><button type="button" class="simulation-close">×</button></div><p class="simulation-disclosure"></p><div class="simulation-fields"><div><label for="simulation-origin-country"></label><select id="simulation-origin-country"></select><label for="simulation-origin"></label><select id="simulation-origin"></select></div><div><label for="simulation-destination-country"></label><select id="simulation-destination-country"></select><label for="simulation-destination"></label><select id="simulation-destination"></select></div></div><button type="button" id="simulation-toggle" aria-pressed="false" class="simulation-toggle"></button><p class="simulation-explanation"></p><p class="simulation-validity"></p><details class="simulation-source"><summary></summary><p class="simulation-carrier"></p><a class="simulation-source-link" target="_blank" rel="noopener noreferrer"></a></details></section>';
     document.body.append(root);
+    const reverse = document.createElement('button');
+    reverse.id = 'simulation-reverse';
+    reverse.type = 'button';
+    reverse.className = 'simulation-reverse';
+    reverse.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h16m-4-4 4 4-4 4M20 16H4m4-4-4 4 4 4"/></svg>';
+    reverse.setAttribute('aria-describedby', 'simulation-reverse-reason');
+    const fields = root.querySelector('.simulation-fields')!;
+    fields.insertBefore(reverse, fields.children[1]!);
+    const reverseReason = document.createElement('p');
+    reverseReason.id = 'simulation-reverse-reason';
+    reverseReason.className = 'simulation-reverse-reason';
+    const reverseStatus = document.createElement('p');
+    reverseStatus.className = 'simulation-reverse-status';
+    reverseStatus.setAttribute('role', 'status');
+    reverseStatus.setAttribute('aria-live', 'polite');
+    fields.after(reverseReason, reverseStatus);
     const trigger = document.createElement('button');
     trigger.id = 'simulated-route-trigger';
     trigger.type = 'button';
@@ -181,8 +211,12 @@ export function initializeSimulatedRoutes(
         `${currentLanguage() === 'en' ? e.city.en : e.city.zhHant} (${e.iata})`;
     const countryName = (e: RouteEndpoint) =>
         currentLanguage() === 'en' ? e.country.en : e.country.zhHant;
-    const options = (select: HTMLSelectElement, values: { id: string; label: string }[]) => {
-        const previous = select.value;
+    const options = (
+        select: HTMLSelectElement,
+        values: { id: string; label: string }[],
+        desired?: string,
+    ) => {
+        const previous = desired ?? select.value;
         select.replaceChildren(...values.map((v) => new Option(v.label, v.id)));
         select.value = values.some((v) => v.id === previous) ? previous : (values[0]?.id ?? '');
         select.disabled = !values.length;
@@ -201,22 +235,46 @@ export function initializeSimulatedRoutes(
         ].sort((a, b) =>
             a.label.localeCompare(b.label, currentLanguage() === 'en' ? 'en' : 'zh-Hant'),
         );
-    function render() {
+    function render(desired?: JoinedRoute) {
         const origins = routes.map((r) => r.origin);
-        options(originCountry, unique(origins, true));
-        options(origin, unique(origins.filter((e) => e.countryCode === originCountry.value)));
+        options(originCountry, unique(origins, true), desired?.origin.countryCode);
+        options(
+            origin,
+            unique(origins.filter((e) => e.countryCode === originCountry.value)),
+            desired?.origin.iata,
+        );
         const destinations = routes
             .filter((r) => r.origin.iata === origin.value)
             .map((r) => r.destination);
-        options(destinationCountry, unique(destinations, true));
+        options(destinationCountry, unique(destinations, true), desired?.destination.countryCode);
         options(
             destination,
             unique(destinations.filter((e) => e.countryCode === destinationCountry.value)),
+            desired?.destination.iata,
         );
         const route = selected();
+        reverse.disabled = !reverseRoute(routes, route);
+        reverse.setAttribute('aria-label', words('Reverse route', '反轉航線', '調轉航線'));
+        reverse.title = reverse.getAttribute('aria-label')!;
+        reverseReason.hidden = !reverse.disabled;
+        if (reverse.disabled) reverse.setAttribute('aria-describedby', reverseReason.id);
+        else reverse.removeAttribute('aria-describedby');
+        reverseReason.textContent = route
+            ? words(
+                  'The reverse direction is not available in this researched catalog.',
+                  '此查核資料尚未收錄反向航線。',
+                  '呢份查核資料未收錄反向航線。',
+              )
+            : words(
+                  'No researched route is available to reverse.',
+                  '目前沒有可反轉的已查核航線。',
+                  '而家冇可調轉嘅已查核航線。',
+              );
+        reverseStatus.textContent = '';
         if (!route) enabled = false;
         const label = words('Routes', '航線');
-        trigger.disabled = !routes.length;
+        // Keep unavailable explanations reachable once loading has settled.
+        trigger.disabled = !routes.length && !failed && !(catalog && getAirports().length);
         trigger.setAttribute('aria-label', words('Routes', '航線'));
         trigger.title = trigger.getAttribute('aria-label')!;
         trigger.setAttribute('aria-pressed', String(enabled));
@@ -264,8 +322,8 @@ export function initializeSimulatedRoutes(
             const period =
                 route.evidence.validFrom && route.evidence.validThrough
                     ? words(
-                          `Published timetable: ${route.evidence.validFrom}–${route.evidence.validThrough}. Service after this period is not asserted.`,
-                          `公開時間表：${route.evidence.validFrom} 至 ${route.evidence.validThrough}。此期間之後的服務未獲確認。`,
+                          `Source period: ${route.evidence.validFrom}–${route.evidence.validThrough}. Service after this period is not asserted.`,
+                          `來源資料期間：${route.evidence.validFrom} 至 ${route.evidence.validThrough}。此期間之後的服務未獲確認。`,
                       )
                     : words(
                           'Source snapshot; schedules can change. Individual departures are unverified.',
@@ -305,6 +363,16 @@ export function initializeSimulatedRoutes(
         const r = selected();
         if (enabled && r) center(r.from.lat, r.from.lon);
     });
+    reverse.addEventListener('click', () => {
+        const route = reverseRoute(routes, selected());
+        if (!route) return;
+        render(route);
+        document.dispatchEvent(new Event('roamnest-form-controls-refresh'));
+        reverseStatus.textContent =
+            words('Route reversed: ', '航線已反轉：', '航線已調轉：') +
+            `${route.origin.iata} → ${route.destination.iata}`;
+        if (enabled) center(route.from.lat, route.from.lon);
+    });
     trigger.addEventListener('click', () => set(!open));
     panel.querySelector('.simulation-close')!.addEventListener('click', () => set(false, true));
     panel.addEventListener('keydown', (event) => {
@@ -328,7 +396,7 @@ export function initializeSimulatedRoutes(
         { passive: true },
     );
     window.addEventListener('roamnest-mode-change', () => set(false));
-    window.addEventListener('roamnest-language-change', render);
+    window.addEventListener('roamnest-language-change', () => render());
     new ResizeObserver(changes).observe(panel);
     const join = () => {
         if (catalog) {

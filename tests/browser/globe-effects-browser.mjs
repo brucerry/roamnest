@@ -3,6 +3,7 @@ import { readdir, readFile, writeFile, stat } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
 import http from 'node:http';
 import assert from 'node:assert/strict';
+import { checkRouteReversal } from './route-reversal-checks.mjs';
 import { blankPlan } from '../../dist/src/domain/planner.js';
 async function waitForHover(page, button) {
     // Cancel any smooth reveal scroll before placing the pointer over the button.
@@ -27,6 +28,43 @@ async function waitForHover(page, button) {
     }
 }
 
+const expandedDestinations = {
+    AMS: ['DXB', 'FRA', 'HKG', 'LHR', 'SIN'],
+    BKK: ['HKG', 'ICN', 'NRT', 'SIN', 'TPE'],
+    CDG: ['DXB', 'FRA', 'HKG', 'SIN'],
+    FRA: ['DXB', 'HKG', 'JFK', 'LHR', 'SIN'],
+    LHR: ['DXB', 'FRA', 'HKG', 'ORD'],
+    NRT: ['DXB', 'HKG', 'SEA', 'SIN', 'TPE'],
+    SEA: ['CDG', 'HKG', 'LHR', 'NRT', 'TPE'],
+    SIN: ['DXB', 'HKG', 'NRT', 'SYD', 'TPE'],
+    YVR: ['HKG', 'ICN', 'LHR', 'NRT', 'TPE'],
+    CHC: ['AKL', 'MEL', 'SYD', 'WLG', 'ZQN'],
+    WLG: ['AKL', 'CHC', 'MEL', 'SYD', 'ZQN'],
+    ZQN: ['AKL', 'CHC', 'MEL', 'SYD', 'WLG'],
+    TPE: ['BKK', 'HKG', 'KIX', 'LAX', 'NRT', 'SEA', 'SFO', 'SIN'],
+    KHH: ['BKK', 'HKG', 'ICN', 'KIX', 'NRT', 'SIN'],
+    RMQ: ['HKG', 'MFM', 'OKA', 'SGN', 'TAK'],
+    MFM: ['ICN', 'KHH', 'NRT', 'RMQ', 'TPE'],
+};
+const originCountries = {
+    AMS: 'NL',
+    BKK: 'TH',
+    CDG: 'FR',
+    FRA: 'DE',
+    LHR: 'GB',
+    NRT: 'JP',
+    SEA: 'US',
+    SIN: 'SG',
+    YVR: 'CA',
+    CHC: 'NZ',
+    WLG: 'NZ',
+    ZQN: 'NZ',
+    TPE: 'TW',
+    KHH: 'TW',
+    RMQ: 'TW',
+    MFM: 'MO',
+};
+const routeCatalog = JSON.parse(await readFile('public/data/simulated-routes.json', 'utf8'));
 const plan = blankPlan();
 plan.id = 'effects-fixture';
 plan.title = 'Effects fixture';
@@ -147,23 +185,41 @@ try {
         await ipPage.locator('#sources summary').click();
         await ipPage.locator('#ip-centering').check();
         assert.equal(ipCalls, 0);
-        await ipPage.locator('#globe-mode').click();
-        await ipPage.waitForTimeout(200);
-        const centeredView = await ipPage.waitForFunction(() => {
+        // Confirm Back resumed motion, then freeze at settlement so a throttled canvas
+        // redraw cannot include a later rotation frame in the precise centering assertion.
+        await ipPage.evaluate(() => {
             const globe = document.querySelector('#globe');
-            if (globe.dataset.recenterCount !== '1' || globe.dataset.recentering !== 'false')
-                return false;
-            return {
-                longitude: Number(globe.dataset.longitude),
-                latitude: Number(globe.dataset.latitude),
+            const freeze = () => {
+                if (globe.dataset.recenterCount !== '1') return;
+                const motion = document.querySelector('#globe-mode-motion');
+                window.effectsMotionResumed = motion.getAttribute('aria-pressed') === 'false';
+                motion.click();
+                window.removeEventListener('roamnest-globe-view-settled', freeze);
             };
+            window.addEventListener('roamnest-globe-view-settled', freeze);
+            const observer = new MutationObserver(() => {
+                if (globe.dataset.recenterCount === '1' && globe.dataset.recentering === 'false') {
+                    window.effectsRecenterSample = {
+                        longitude: Number(globe.dataset.longitude),
+                        latitude: Number(globe.dataset.latitude),
+                    };
+                    observer.disconnect();
+                }
+            });
+            observer.observe(globe, { attributes: true, attributeFilter: ['data-recentering'] });
         });
+        await ipPage.locator('#globe-mode').click();
+        const centeredView = await ipPage.waitForFunction(() => window.effectsRecenterSample);
         const centered = await centeredView.jsonValue();
         await centeredView.dispose();
         assert.equal(ipCalls, 1);
-        assert.equal(await ipPage.locator('#globe').getAttribute('data-motion-paused'), 'false');
-        assert.ok(Math.abs(centered.longitude - 139.76) < 0.01);
-        assert.ok(Math.abs(centered.latitude - 35.68) < 0.01);
+        assert.equal(await ipPage.evaluate(() => window.effectsMotionResumed), true);
+        assert.ok(Math.abs(centered.longitude - 139.76) < 0.01, JSON.stringify(centered));
+        assert.ok(Math.abs(centered.latitude - 35.68) < 0.01, JSON.stringify(centered));
+        await ipPage.locator('#globe-mode-motion').click();
+        await ipPage.waitForFunction(
+            () => document.querySelector('#globe').dataset.motionPaused === 'false',
+        );
         await ipPage.locator('#globe-return').click();
         await ipPage.waitForTimeout(550);
         assert.equal(await ipPage.locator('#ip-centering').isChecked(), true);
@@ -380,6 +436,11 @@ try {
         check(width + ' icon-only accessible toolbar and exact pointer hotspot across DPI');
         await page.locator('#simulated-route-trigger').click();
         await page.waitForSelector('#simulation-origin.form-native');
+        assert.equal(
+            await page.locator('#simulation-toggle').getAttribute('aria-pressed'),
+            'false',
+        );
+        assert.equal(await page.locator('#simulated-route-badge').isVisible(), false);
         const choose = async (id, value) => {
             const trigger = page
                 .locator('#' + id)
@@ -388,7 +449,157 @@ try {
             await trigger.click();
             const popup = page.locator('#' + (await trigger.getAttribute('aria-controls')));
             await popup.locator(`[data-value="${value}"]`).click();
+            await page.waitForFunction(() => {
+                const settings = document.querySelector('.simulated-route-settings');
+                return (
+                    settings.dataset.enabled !== 'true' ||
+                    document.querySelector('#globe').dataset.simulationRoute ===
+                        'DEMO-' + settings.dataset.selectedRoute
+                );
+            });
         };
+
+        const toggleRoute = async () => {
+            await page.locator('#simulation-toggle').click();
+            await page.waitForFunction(() => {
+                const settings = document.querySelector('.simulated-route-settings');
+                const globe = document.querySelector('#globe');
+                return (
+                    globe.dataset.simulationEnabled === settings.dataset.enabled &&
+                    globe.dataset.simulationRoute ===
+                        (settings.dataset.enabled === 'true'
+                            ? 'DEMO-' + settings.dataset.selectedRoute
+                            : '')
+                );
+            });
+        };
+
+        // Every affected origin must expose precisely its independently approved destinations.
+        // Native selection keeps this exhaustive data check quick; the animations below
+        // exercise visible popup controls, as do the dedicated form/view suites.
+        const chooseCoverage = (id, value) =>
+            page.locator('#' + id).selectOption(value, { force: true });
+        for (const [origin, expected] of Object.entries(expandedDestinations)) {
+            await chooseCoverage('simulation-origin-country', originCountries[origin]);
+            await chooseCoverage('simulation-origin', origin);
+            if (originCountries[origin] === 'TW')
+                assert.deepEqual(
+                    await page
+                        .locator('#simulation-origin option')
+                        .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+                    ['KHH', 'RMQ', 'TPE'],
+                );
+            if (origin === 'MFM')
+                assert.deepEqual(
+                    await page
+                        .locator('#simulation-origin option')
+                        .evaluateAll((xs) => xs.map((x) => x.value)),
+                    ['MFM'],
+                );
+            const selectedRoutes = routeCatalog.routes.filter((r) => r.origin.iata === origin);
+            const expectedCountries = [
+                ...new Set(selectedRoutes.map((r) => r.destination.countryCode)),
+            ].sort();
+            assert.deepEqual(
+                await page
+                    .locator('#simulation-destination-country option')
+                    .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+                expectedCountries,
+            );
+            const actual = [];
+            for (const country of expectedCountries) {
+                await chooseCoverage('simulation-destination-country', country);
+                const values = await page
+                    .locator('#simulation-destination option')
+                    .evaluateAll((xs) => xs.map((x) => x.value).sort());
+                assert.deepEqual(
+                    values,
+                    selectedRoutes
+                        .filter((r) => r.destination.countryCode === country)
+                        .map((r) => r.destination.iata)
+                        .sort(),
+                );
+                actual.push(...values);
+            }
+            for (const destination of expected)
+                assert.ok(
+                    actual.includes(destination),
+                    origin + ' baseline destination ' + destination,
+                );
+            assert.deepEqual(
+                actual.sort(),
+                selectedRoutes.map((r) => r.destination.iata).sort(),
+                origin + ' exact whitelist',
+            );
+        }
+        check(width + ' all sixteen expanded origin whitelists, TW airports and MO/MFM identity');
+        // Remain initially off while browsing countries, then animate one route from each group.
+        assert.equal(
+            await page.locator('#simulation-toggle').getAttribute('aria-pressed'),
+            'false',
+        );
+        await toggleRoute();
+        for (const id of [
+            'HKG-KHH',
+            'HKG-RMQ',
+            'AMS-HKG',
+            'BKK-NRT',
+            'SEA-NRT',
+            'CHC-WLG',
+            'TPE-KIX',
+            'KHH-NRT',
+            'RMQ-SGN',
+            'MFM-NRT',
+        ]) {
+            const route = routeCatalog.routes.find((r) => r.id === id);
+            await choose('simulation-origin-country', route.origin.countryCode);
+            await choose('simulation-origin', route.origin.iata);
+            await choose('simulation-destination-country', route.destination.countryCode);
+            await choose('simulation-destination', route.destination.iata);
+            // Canvas state is published on the next animation frame after selector changes.
+            await page.waitForFunction(
+                (id) => document.querySelector('#globe').dataset.simulationRoute === 'DEMO-' + id,
+                id,
+            );
+            assert.equal(
+                await page.locator('#globe').getAttribute('data-simulation-route'),
+                'DEMO-' + id,
+            );
+            assert.equal(
+                await page.locator('.simulation-source-link').getAttribute('href'),
+                route.evidence.sourceURL,
+            );
+            assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-10/);
+            assert.ok(
+                (await page.locator('.simulation-carrier').textContent()).includes(
+                    route.carrier.name.en,
+                ),
+            );
+            assert.ok(
+                (await page.locator('.simulation-validity').textContent()).includes(
+                    route.seasonality,
+                ),
+            );
+            assert.equal(
+                await page.evaluate(() => localStorage.getItem('roamnest-plans-v1')),
+                original,
+            );
+        }
+        await toggleRoute();
+        await choose('simulation-origin-country', 'HK');
+        await choose('simulation-origin', 'HKG');
+        await choose('simulation-destination-country', 'TW');
+        assert.deepEqual(
+            await page
+                .locator('#simulation-destination option')
+                .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+            ['KHH', 'RMQ', 'TPE'],
+        );
+        check(width + ' Hong Kong offers exactly Kaohsiung, Taichung and Taoyuan');
+        check(
+            width +
+                ' representative additions animate with exact sources, limits and preserved saved bytes',
+        );
         await choose('simulation-origin-country', 'HK');
         assert.deepEqual(
             await page
@@ -401,21 +612,59 @@ try {
                 .locator('#simulation-destination-country option')
                 .evaluateAll((xs) => xs.map((x) => x.value))
                 .then((xs) => xs.sort()),
-            ['AE', 'CA', 'TH', 'US'],
+            ['AE', 'AU', 'CA', 'DE', 'FR', 'GB', 'JP', 'KR', 'NL', 'NZ', 'SG', 'TH', 'TW', 'US'],
         );
         await choose('simulation-destination-country', 'CA');
         assert.deepEqual(
             await page
                 .locator('#simulation-destination option')
-                .evaluateAll((xs) => xs.map((x) => x.value)),
-            ['YVR'],
+                .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+            ['YVR', 'YYZ'],
         );
         check(
             width + ' origin/country selectors whitelist only researched directional destinations',
         );
         assert.equal(
             await page.locator('.simulated-route-settings').getAttribute('data-route-count'),
-            '48',
+            String(routeCatalog.routes.length),
+        );
+        await choose('simulation-destination', 'YYZ');
+        await toggleRoute();
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-HKG-YYZ',
+        );
+        assert.equal(
+            await page.locator('.simulation-source-link').getAttribute('href'),
+            'https://www.cathaypacific.com/cx/en_HK/book-a-trip/timetable.html',
+        );
+        assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-10/);
+        assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-16/);
+        await choose('simulation-destination-country', 'JP');
+        assert.deepEqual(
+            await page
+                .locator('#simulation-destination option')
+                .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+            ['HND', 'KIX', 'NRT'],
+        );
+        for (const [code, name] of [
+            ['NRT', 'Tokyo Narita'],
+            ['HND', 'Tokyo Haneda'],
+            ['KIX', 'Osaka Kansai'],
+        ]) {
+            await choose('simulation-destination', code);
+            assert.equal(
+                await page.locator('#globe').getAttribute('data-simulation-route'),
+                `DEMO-HKG-${code}`,
+            );
+            assert.match(
+                await page.locator(`#simulation-destination option[value="${code}"]`).textContent(),
+                new RegExp(name),
+            );
+        }
+        await toggleRoute();
+        check(
+            width + ' Hong Kong additions distinguish Japanese airports and Canadian destinations',
         );
         await choose('simulation-origin-country', 'NZ');
         await choose('simulation-origin', 'AKL');
@@ -426,13 +675,49 @@ try {
                 .evaluateAll((xs) => xs.map((x) => x.value)),
             ['PPT'],
         );
-        await page.locator('#simulation-toggle').click();
+        await toggleRoute();
         assert.equal(
             await page.locator('#globe').getAttribute('data-simulation-route'),
             'DEMO-AKL-PPT',
         );
         assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-10/);
+        await choose('simulation-destination-country', 'ID');
+        await choose('simulation-destination', 'DPS');
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-AKL-DPS',
+        );
+        assert.match(await page.locator('.simulation-validity').textContent(), /Seasonal service/);
+        assert.match(
+            await page.locator('.simulation-source-link').getAttribute('href'),
+            /airnewzealand\.com\/en-nz\/travel-info\/destinations-we-fly-to/,
+        );
         await choose('simulation-origin-country', 'AE');
+        await choose('simulation-origin', 'DXB');
+        await choose('simulation-destination-country', 'FR');
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-DXB-CDG',
+        );
+        assert.match(
+            await page.locator('.simulation-source-link').getAttribute('href'),
+            /emirates\.com\/english\/destinations\/dxb\/cdg\//,
+        );
+        await choose('simulation-origin-country', 'US');
+        await choose('simulation-origin', 'ORD');
+        await choose('simulation-destination-country', 'ES');
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-ORD-MAD',
+        );
+        assert.match(await page.locator('.simulation-carrier').textContent(), /American Airlines/);
+        assert.match(
+            await page.locator('.simulation-source-link').getAttribute('href'),
+            /flychicago\.com.*INTLnonstops\.pdf/,
+        );
+        assert.match(await page.locator('.simulation-validity').textContent(), /2026-10-10/);
+        await choose('simulation-origin-country', 'AE');
+        await choose('simulation-origin', 'DXB');
         await choose('simulation-destination-country', 'JP');
         assert.equal(
             await page.locator('#globe').getAttribute('data-simulation-route'),
@@ -442,14 +727,15 @@ try {
             await page.locator('.simulation-source-link').getAttribute('href'),
             /emirates\.com\/english\/destinations\/dxb\/nrt\//,
         );
-        await page.locator('#simulation-toggle').click();
+        await toggleRoute();
         await choose('simulation-origin-country', 'HK');
         await choose('simulation-destination-country', 'CA');
+        await choose('simulation-destination', 'YVR');
         check(
             width +
                 ' expanded Pacific and Asian routes select, animate and retain official evidence',
         );
-        await page.locator('#simulation-toggle').click();
+        await toggleRoute();
         await page.waitForTimeout(700);
         assert.equal(
             await page.locator('#globe').getAttribute('data-simulation-route'),
@@ -489,13 +775,13 @@ try {
                     1.5,
             ) < 0.001,
         );
-        await page.locator('#simulation-toggle').click();
+        await toggleRoute();
         assert.equal(await page.locator('#simulated-route-badge').isVisible(), false);
         assert.equal(
             await page.locator('#simulated-route-trigger').getAttribute('aria-pressed'),
             'false',
         );
-        await page.locator('#simulation-toggle').click();
+        await toggleRoute();
         assert.equal(
             await page.locator('#simulated-route-trigger').getAttribute('aria-pressed'),
             'true',
@@ -518,6 +804,97 @@ try {
             width +
                 ' optional simulation labels and expired-after-window limits, no real animated flight numbers',
         );
+        if (width === 1440) {
+            for (const id of ['HKG-KHH', 'HKG-RMQ', 'TPE-NRT', 'KHH-NRT', 'RMQ-SGN', 'MFM-NRT']) {
+                const route = routeCatalog.routes.find((r) => r.id === id);
+                await choose('simulation-origin-country', route.origin.countryCode);
+                await choose('simulation-origin', route.origin.iata);
+                await choose('simulation-destination-country', route.destination.countryCode);
+                await choose('simulation-destination', route.destination.iata);
+                for (const language of ['zh-Hant', 'yue-Hant', 'en']) {
+                    await page.locator('.simulation-close').click();
+                    await page.locator('#globe-return').click();
+                    await page.waitForTimeout(550);
+                    await page.locator('#language-trigger').click();
+                    await page.locator('[data-language="' + language + '"]').click();
+                    await page.locator('#globe-mode').click();
+                    await page.waitForTimeout(550);
+                    await page.locator('#simulated-route-trigger').click();
+                    assert.equal(
+                        await page.locator('#simulation-origin').inputValue(),
+                        route.origin.iata,
+                    );
+                    assert.equal(
+                        await page.locator('#simulation-origin-country').inputValue(),
+                        route.origin.countryCode,
+                    );
+                    assert.equal(
+                        await page.locator('#simulation-destination').inputValue(),
+                        route.destination.iata,
+                    );
+                    assert.equal(
+                        await page.locator('#globe').getAttribute('data-simulation-route'),
+                        'DEMO-' + id,
+                    );
+                    assert.equal(
+                        await page.locator('.simulation-source-link').getAttribute('href'),
+                        route.evidence.sourceURL,
+                    );
+                    assert.match(
+                        await page.locator('.simulation-validity').textContent(),
+                        /2026-10-10/,
+                    );
+                    assert.ok(
+                        (await page.locator('.simulation-carrier').textContent()).includes(
+                            language === 'en' ? route.carrier.name.en : route.carrier.name.zhHant,
+                        ),
+                    );
+                    if (route.origin.iata === 'HKG') {
+                        assert.deepEqual(
+                            await page
+                                .locator('#simulation-destination option')
+                                .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+                            ['KHH', 'RMQ', 'TPE'],
+                        );
+                        assert.ok(
+                            (
+                                await page
+                                    .locator('#simulation-destination option:checked')
+                                    .textContent()
+                            ).includes(
+                                language === 'en'
+                                    ? route.destination.city.en
+                                    : route.destination.city.zhHant,
+                            ),
+                        );
+                    }
+                    assert.ok(
+                        (
+                            await page.locator('#simulation-origin option:checked').textContent()
+                        ).includes(
+                            language === 'en' ? route.origin.city.en : route.origin.city.zhHant,
+                        ),
+                    );
+                    const validity = await page.locator('.simulation-validity').textContent();
+                    assert.ok(
+                        language === 'en'
+                            ? validity.includes(route.seasonality)
+                            : !validity.includes(route.seasonality),
+                    );
+                    assert.equal(
+                        await page.evaluate(() => localStorage.getItem('roamnest-plans-v1')),
+                        original,
+                    );
+                }
+            }
+            await choose('simulation-origin-country', 'HK');
+            await choose('simulation-origin', 'HKG');
+            await choose('simulation-destination-country', 'US');
+            await choose('simulation-destination', 'SEA');
+            check(
+                'Taiwan and Macau preserve selected airport, demo route, localized limits and saved bytes across three languages',
+            );
+        }
         for (const language of ['zh-Hant', 'yue-Hant', 'en']) {
             await page.locator('.simulation-close').click();
             await page.locator('#globe-return').click();
@@ -556,6 +933,70 @@ try {
                 await page.locator('.simulation-explanation').textContent(),
                 language === 'en' ? /not live or observed/ : /即時/,
             );
+            await choose('simulation-destination-country', 'TW');
+            assert.deepEqual(
+                await page
+                    .locator('#simulation-destination option')
+                    .evaluateAll((xs) => xs.map((x) => x.value).sort()),
+                ['KHH', 'RMQ', 'TPE'],
+            );
+            for (const airport of ['KHH', 'RMQ', 'TPE']) {
+                await choose('simulation-destination', airport);
+                const route = routeCatalog.routes.find((item) => item.id === 'HKG-' + airport);
+                assert.equal(
+                    await page.locator('#globe').getAttribute('data-simulation-route'),
+                    'DEMO-HKG-' + airport,
+                );
+                assert.ok(
+                    (
+                        await page.locator('#simulation-destination option:checked').textContent()
+                    ).includes(
+                        language === 'en'
+                            ? route.destination.city.en
+                            : route.destination.city.zhHant,
+                    ),
+                );
+                assert.ok(
+                    (await page.locator('.simulation-carrier').textContent()).includes(
+                        language === 'en' ? route.carrier.name.en : route.carrier.name.zhHant,
+                    ),
+                );
+                assert.match(
+                    await page.locator('.simulation-validity').textContent(),
+                    /2026-10-16/,
+                );
+                assert.equal(
+                    await page.evaluate(() => localStorage.getItem('roamnest-plans-v1')),
+                    original,
+                );
+            }
+            assert.match(
+                await page.locator('.simulation-validity').textContent(),
+                language === 'en'
+                    ? /beyond that period is not asserted/
+                    : language === 'yue-Hant'
+                      ? /之後嘅服務未確認/
+                      : /其後服務未獲確認/,
+            );
+            assert.equal(
+                await page.locator('.simulation-source-link').getAttribute('href'),
+                'https://www.cathaypacific.com/cx/en_HK/book-a-trip/timetable.html',
+            );
+            await choose('simulation-destination-country', 'JP');
+            await choose('simulation-destination', 'HND');
+            assert.match(
+                await page.locator('#simulation-destination option[value="HND"]').textContent(),
+                language === 'en' ? /Tokyo Haneda/ : /東京羽田/,
+            );
+            await choose('simulation-origin-country', 'NZ');
+            await choose('simulation-origin', 'AKL');
+            await choose('simulation-destination-country', 'ID');
+            assert.match(
+                await page.locator('.simulation-validity').textContent(),
+                language === 'en' ? /Seasonal service/ : /季節性服務/,
+            );
+            await choose('simulation-origin-country', 'HK');
+            await choose('simulation-destination-country', 'TW');
         }
         check(
             width +
@@ -635,10 +1076,30 @@ try {
                 ' paused/running Explore Back always resumes planner rotation; re-entry icon and state agree',
         );
         await page.locator('#simulated-route-trigger').click();
+        await choose('simulation-destination-country', 'CA');
+        await choose('simulation-destination', 'YYZ');
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-HKG-YYZ',
+        );
         await page.locator('.simulation-close').click();
         await page.locator('#globe-mode-motion').click();
         await page.waitForFunction(
             () => document.querySelector('#globe').dataset.motionPaused === 'true',
+        );
+        await page.locator('#simulated-route-trigger').click();
+        await page.locator('#simulation-reverse').click();
+        await page.waitForFunction(
+            () => document.querySelector('#globe').dataset.simulationRoute === 'DEMO-YYZ-HKG',
+        );
+        assert.equal(await page.locator('#globe').getAttribute('data-motion-paused'), 'true');
+        await page.locator('#simulation-reverse').click();
+        await page.waitForFunction(
+            () => document.querySelector('#globe').dataset.simulationRoute === 'DEMO-HKG-YYZ',
+        );
+        await page.locator('.simulation-close').click();
+        await page.waitForFunction(
+            () => document.querySelector('#globe').dataset.recentering === 'false',
         );
         const paused = await page.locator('#globe').evaluate((e) => ({ ...e.dataset }));
         await page.waitForTimeout(350);
@@ -703,6 +1164,10 @@ try {
         report.performance.push({ width, ...performance });
         await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.waitForTimeout(200);
+        assert.equal(
+            await page.locator('#globe').getAttribute('data-simulation-route'),
+            'DEMO-HKG-YYZ',
+        );
         assert.equal(await page.locator('#globe').getAttribute('data-simulation-phase'), 'static');
         assert.equal(
             await page
@@ -751,6 +1216,7 @@ try {
         );
         await context.close();
     }
+    await checkRouteReversal(browser, base, routeCatalog, original, check);
 } finally {
     await browser.close();
     await new Promise((resolve) => server.close(resolve));
